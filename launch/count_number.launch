@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<launch>  
+
+  <node pkg="restart" name="count_server" type="count_server" output="screen"/>
+
+  <group ns="client1">
+    <node pkg="restart" name="count_client" type="count_client" output="screen"> 
+      <param name="base_num" value="1" type="int"/>
+    </node> 
+  </group>
+  
+  <group ns="client100">
+    <node pkg="restart" name="count_client" type="count_client" output="screen"> 
+      <param name="base_num" value="100" type="int"/>
+    </node> 
+  </group>
+    
+</launch>

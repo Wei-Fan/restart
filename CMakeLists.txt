@@ -8,10 +8,12 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
+  std_srvs
   message_generation
   genmsg
   cv_bridge
   image_transport
+  vicon_bridge
 )
 
 # find_package(OpenCV REQUIRED)
@@ -55,6 +57,7 @@ find_package(catkin REQUIRED COMPONENTS
 	FILES
    	Num.msg
     NodeExampleData.msg
+	pos_est.msg
  )
 
 ## Generate services in the 'srv' folder
@@ -62,6 +65,7 @@ find_package(catkin REQUIRED COMPONENTS
 
  	FILES
    	AddTwoInts.srv
+	CountNumber.srv
  )
 
 ## Generate actions in the 'action' folder
@@ -75,7 +79,17 @@ find_package(catkin REQUIRED COMPONENTS
  generate_messages(
    DEPENDENCIES
    std_msgs
+   geometry_msgs
  )
+
+# Enable C++11
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
+## System dependencies are found with CMake's conventions
+find_package(Boost REQUIRED COMPONENTS 
+  program_options 
+#  bind
+  REQUIRED)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -109,7 +123,11 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES restart
-  CATKIN_DEPENDS message_runtime roscpp rospy std_msgs
+  CATKIN_DEPENDS
+  message_runtime
+  roscpp rospy 
+  std_msgs
+  vicon_bridge
 #  DEPENDS system_lib
 )
 
@@ -122,6 +140,7 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
+./include
 )
 
 ##include_directories(
@@ -147,7 +166,11 @@ add_executable(add_two_ints_client src/add_two_ints_client.cpp)
 add_executable(newhello src/newhello.cpp)
 add_executable(secondMajor src/secondMajor.cpp)
 add_executable(m_opencv_test src/m_opencv_test.cpp)
+add_executable(marker_test src/marker_test.cpp)
 add_executable(find_test src/find_test.cpp)
+add_executable(glhello src/glhello.cpp)
+add_executable(count_server src/count_server.cpp)
+add_executable(count_client src/count_client.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -156,6 +179,8 @@ add_dependencies(talker restart_generate_messages_cpp)
 add_dependencies(listener restart_generate_messages_cpp)
 add_dependencies(add_two_ints_server restart_gencpp)
 add_dependencies(add_two_ints_client restart_gencpp)
+add_dependencies(count_server restart_gencpp)
+add_dependencies(count_client restart_gencpp)
 
 ## Specify libraries to link a library or executable target against
 # target_link_libraries(restart_node
@@ -167,8 +192,12 @@ target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_client ${catkin_LIBRARIES})
 target_link_libraries(newhello ${catkin_LIBRARIES})
 target_link_libraries(secondMajor ${catkin_LIBRARIES})
-target_link_libraries(m_opencv_test ${catkin_LIBRARIES})
+target_link_libraries(m_opencv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(marker_test ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(find_test ${catkin_LIBRARIES})
+target_link_libraries(glhello ${catkin_LIBRARIES})
+target_link_libraries(count_server ${catkin_LIBRARIES})
+target_link_libraries(count_client ${catkin_LIBRARIES})
 
 
 #############
