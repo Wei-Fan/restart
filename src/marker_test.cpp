@@ -270,7 +270,6 @@ public:
     		if(swarm_pos.size()==g_vehicle_num)
     			isFirstVicon = false;
 		}
-		
 		else if (!isFirstVicon && msg->markers.size() != 0)
 		{
 			std::vector<Vector3f> markers_pos;

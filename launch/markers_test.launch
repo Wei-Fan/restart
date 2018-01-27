@@ -1,5 +1,5 @@
 <launch>
-	<node pkg="restart" type="marker_test" name="marker_test" output="screen"/>
+	<node pkg="restart" type="marker_testv3" name="marker_testv3" output="screen"/>
 	<node pkg="vicon_bridge" type="vicon_bridge" name="vicon" >
 	    <param name="stream_mode" value="ServerPush" type="str" />
 	    <param name="datastream_hostport" value="192.168.2.100:801" type="str" />

@@ -404,7 +404,7 @@ int main(int argc, char **argv)
 	ros::init(argc, argv, "find_circle");
 	ros::NodeHandle n;
 
-	/*x_init_pos.push_back(-1.0);
+	x_init_pos.push_back(-1.0);
 	y_init_pos.push_back(1.0);
 	x_init_pos.push_back(-0.01);
 	y_init_pos.push_back(0.02);
@@ -417,9 +417,21 @@ int main(int argc, char **argv)
 	for (int i = 0; i < index_sequence.size(); ++i)
 	{
 		printf("%d\n", index_sequence[i]);
+	}
+	//RecCrazy reccrazy(n);
+	//reccrazy.run(50);
+	/*if (fabs(5-3)<2)
+	{
+		printf("yes\n");
+	}else{
+		printf("no\n");
 	}*/
-	RecCrazy reccrazy(n);
-	reccrazy.run(50);
+	printf("atan : %f\n", atan(0.5));
+	printf("atan : %f\n", atan(2));
+	printf("atan2 : %f\n", atan2(1,2));
+	printf("atan2 : %f\n", atan2(-1,2));
+	printf("atan2 : %f\n", atan2(1,-2));
+	printf("atan2 : %f\n", atan2(-1,-2));
 
 	ros::spin();
 	return 0;
