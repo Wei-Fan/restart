@@ -91,6 +91,8 @@ find_package(Boost REQUIRED COMPONENTS
 #  bind
   REQUIRED)
 
+FIND_PACKAGE(OpenCV REQUIRED)
+
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
 ################################################
@@ -192,13 +194,13 @@ target_link_libraries(talker ${catkin_LIBRARIES})
 target_link_libraries(listener ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_client ${catkin_LIBRARIES})
-target_link_libraries(newhello ${catkin_LIBRARIES})
+target_link_libraries(newhello ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(secondMajor ${catkin_LIBRARIES})
-target_link_libraries(m_opencv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-target_link_libraries(marker_test ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-target_link_libraries(marker_testv2 ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-target_link_libraries(marker_testv3 ${catkin_LIBRARIES} ${Boost_LIBRARIES})
-target_link_libraries(find_test ${catkin_LIBRARIES})
+target_link_libraries(m_opencv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(marker_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(marker_testv2 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(marker_testv3 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(find_test ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(glhello ${catkin_LIBRARIES})
 target_link_libraries(count_server ${catkin_LIBRARIES})
 target_link_libraries(count_client ${catkin_LIBRARIES})
