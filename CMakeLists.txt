@@ -171,6 +171,7 @@ add_executable(m_opencv_test src/m_opencv_test.cpp)
 add_executable(marker_test src/marker_test.cpp)
 add_executable(marker_testv2 src/marker_testv2.cpp)
 add_executable(marker_testv3 src/marker_testv3.cpp)
+add_executable(formation_switch src/formation_switch.cpp)
 add_executable(find_test src/find_test.cpp)
 add_executable(glhello src/glhello.cpp)
 add_executable(count_server src/count_server.cpp)
@@ -190,6 +191,7 @@ add_dependencies(count_client restart_gencpp)
 # target_link_libraries(restart_node
 #   ${catkin_LIBRARIES}
 # )
+
 target_link_libraries(talker ${catkin_LIBRARIES})
 target_link_libraries(listener ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
@@ -200,6 +202,7 @@ target_link_libraries(m_opencv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${Ope
 target_link_libraries(marker_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(marker_testv2 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(marker_testv3 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(formation_switch ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(find_test ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(glhello ${catkin_LIBRARIES})
 target_link_libraries(count_server ${catkin_LIBRARIES})
