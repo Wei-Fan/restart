@@ -27,6 +27,7 @@ class FormationSwitch
 private:
 	Mat src = Mat(Size(1000,1000), CV_8UC3, Scalar(0));
 	Mat costMatrix;
+	Mat assignment;
 
 public:
 	FormationSwitch(ros::NodeHandle& nh)
@@ -78,6 +79,8 @@ public:
 				isAgentDone = false;
 			}
 		}
+		drawRst();
+		waitKey();
 		destroyWindow("vicon_test");
 		/*ros::NodeHandle node;
 		ros::Timer timer = node.createTimer(ros::Duration(1.0/frequency), &FormationSwitch::iteration, this);
@@ -100,18 +103,33 @@ public:
 		{
 			circle(*img, Point(x, y), 10, Scalar(255, 0, 255));
 			imshow("vicon_test", *img);
-			x_init.push_back(x_world);
-			y_init.push_back(y_world);
+			x_init.push_back(x);//x_world);
+			y_init.push_back(y);//y_world);
 			agent_num++;
 			
 		} else if (isAgentDone)
 		{
 			circle(*img, Point(x, y), 10, Scalar(0, 255, 0));
 			imshow("vicon_test", *img);
-			x_target.push_back(x_world);
-			y_target.push_back(y_world);
+			x_target.push_back(x);//x_world);
+			y_target.push_back(y);//y_world);
 			target_num++;
 		}
+	}
+
+	void drawRst()
+	{
+		for (int i = 0; i < agent_num; ++i)
+		{
+			for (int j = 0; j < target_num; ++j)
+			{
+				if (assignment.at<int>(i,j) == 1)
+				{
+					line(src, Point(x_init[i],y_init[i]), Point(x_target[j],y_target[j]), Scalar(50,50,0),2);
+				}
+			}
+		}
+		imshow("vicon_test", src);
 	}
 
 	int find(Mat &costM,vector<Vector2i> &ass_vec,vector<int> &indep_zero_rows_index,vector<int> &indep_zero_cols_index)
@@ -297,7 +315,7 @@ public:
 		}
 
 		/*find the assignment Matrix*/
-		Mat assignment = Mat::zeros(agent_num, target_num, CV_32SC1);
+		assignment = Mat::zeros(agent_num, target_num, CV_32SC1);
 		vector<int> indep_zero_rows_index(agent_num,-1);
 		vector<int> indep_zero_cols_index(target_num,-1);
 		vector<Vector2i> ass_vec;
