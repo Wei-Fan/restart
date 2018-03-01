@@ -114,10 +114,125 @@ public:
 		}
 	}
 
+	int find(Mat &costM,vector<Vector2i> &ass_vec,vector<int> &indep_zero_rows_index,vector<int> &indep_zero_cols_index)
+	{
+		int z_n_indep = 0;
+
+		while(true)
+		{
+			Vector2i tmp_z_n;
+
+			/*count the number of zero*/
+			vector<int> zero_num_rows(agent_num,0);
+			vector<int> zero_num_cols(target_num,0);
+			for (int i = 0; i < agent_num; ++i)
+			{
+				if (indep_zero_rows_index[i] == 1)
+					continue;
+
+				for (int j = 0; j < target_num; ++j)
+				{
+					if (indep_zero_cols_index[j] == 1)
+						continue;
+
+					if (costM.at<int>(i,j) == 0)
+					{
+						zero_num_rows[i]++;
+						zero_num_cols[j]++;
+					}
+				}
+			}
+
+			/*find the row that has minimum zero number*/
+			int tmp = -1;
+			int tmp_index = -1;
+			bool isRow;
+			for (int i = 0; i < agent_num+target_num; ++i)
+			{
+				if (i < agent_num) //row
+				{
+					if (indep_zero_rows_index[i] == 1 || zero_num_rows[i] == 0)
+						continue;
+
+					if (zero_num_rows[i] < tmp || tmp < 0)
+					{
+						tmp = zero_num_rows[i];
+						tmp_index = i;
+					}
+				} else {
+					if (indep_zero_cols_index[i-agent_num] == 1 || zero_num_cols[i-agent_num] == 0)
+						continue;
+
+					if (zero_num_cols[i-agent_num] < tmp || tmp < 0)
+					{
+						tmp = zero_num_rows[i-agent_num];
+						tmp_index = i;
+					}
+				}
+			}
+
+			if (tmp_index < 0)
+				break;
+
+			if (tmp_index < agent_num)
+			{
+				indep_zero_rows_index[tmp_index] = 1;
+				isRow = true;
+				tmp_z_n(0) = tmp_index;
+			} else {
+				indep_zero_cols_index[tmp_index-agent_num] = 1;
+				isRow = false;
+				tmp_z_n(1) = tmp_index-agent_num;
+			}
+
+			/*find the independent zero element in that row or col*/
+			if (isRow)
+			{
+				for (int i = 0; i < target_num; ++i)
+				{
+					if (indep_zero_cols_index[i] == 1)
+						continue;
+
+					if (costM.at<int>(tmp_index,i) == 0)
+					{
+						indep_zero_cols_index[i] = 1;
+						tmp_z_n(1) = i;
+					}
+				}
+			} else {
+				for (int i = 0; i < agent_num; ++i)
+				{
+					if (indep_zero_rows_index[i] == 1)
+						continue;
+
+					if (costM.at<int>(i,tmp_index-agent_num) == 0)
+					{
+						indep_zero_rows_index[i] = 1;
+						tmp_z_n(0) = i;
+					}
+				}
+			}
+
+			//tmp_z_n(2) = 0;
+			ass_vec.push_back(tmp_z_n);
+		}
+
+		for (int i = 0; i < agent_num; ++i)
+		{
+			if (indep_zero_rows_index[i] == 1)
+			{
+				z_n_indep++;
+			}
+		}
+
+		return z_n_indep;
+	}
+
 	void formation_switch()
 	{
-		/*build a cost matrix and find the minimum element each rows*/
 		costMatrix = Mat::zeros(agent_num, target_num, CV_32SC1);
+		
+		/*build a cost matrix and find the minimum element each rows*/
 		vector<int> min_per_rows(agent_num,-1);
 		for (int i = 0; i < agent_num; ++i)
 		{
@@ -139,83 +254,188 @@ public:
 			//printf("min_per_rows[%d] = %d\n", i, min_per_rows[i]);
 		}
 
+		/*subtract row minima*/
+		vector<int> assigned_cols(target_num,-1);
 		for (int i = 0; i < agent_num; ++i)
 		{
 			for (int j = 0; j < target_num; ++j)
 			{
 				costMatrix.at<int>(i,j) = costMatrix.at<int>(i,j) - min_per_rows[i];
+				if (costMatrix.at<int>(i,j) == 0)
+					assigned_cols[j] = 1;
+				//printf("costMatrix[%d,%d] = %d\n", i,j,costMatrix.at<int>(i,j));
+			}
+		}
+
+		/*subtract column minima*/
+		for (int j = 0; j < target_num; ++j)
+		{
+			if (assigned_cols[j] == 1)
+				continue;
+
+			int min_cols = -1;
+			for (int i = 0; i < agent_num; ++i)
+			{
+				if (costMatrix.at<int>(i,j) < min_cols || min_cols < 0)
+					min_cols = costMatrix.at<int>(i,j);
+			}
+
+			for (int i = 0; i < agent_num; ++i)
+			{
+				costMatrix.at<int>(i,j) = costMatrix.at<int>(i,j) - min_cols;
+				//printf("costMatrix[%d,%d] = %d\n", i,j,costMatrix.at<int>(i,j));
+			}
+		}
+
+		/*show init*/
+		for (int i = 0; i < agent_num; ++i)
+		{
+			for (int j = 0; j < target_num; ++j)
+			{
 				printf("costMatrix[%d,%d] = %d\n", i,j,costMatrix.at<int>(i,j));
 			}
 		}
 
 		/*find the assignment Matrix*/
 		Mat assignment = Mat::zeros(agent_num, target_num, CV_32SC1);
-		int assigned_num = 0;
-		vector<int> assigned_rows(agent_num,-1);
-		vector<int> assigned_cols(target_num,-1);
+		vector<int> indep_zero_rows_index(agent_num,-1);
+		vector<int> indep_zero_cols_index(target_num,-1);
+		vector<Vector2i> ass_vec;
+		int count = 0;
+		//int assigned_num = 0;
+		//vector<int> assigned_rows(agent_num,-1);
+		//vector<int> assigned_cols(target_num,-1);
 		
-		while(assigned_num != agent_num)
+		while(find(costMatrix,ass_vec,indep_zero_rows_index,indep_zero_cols_index) < agent_num)
 		{
+			printf("*********** %d **********\n\n", count++);
+			/*mark the rows without independent zero*/
+			vector<bool> check_rows(agent_num,true);
+			vector<bool> check_cols(target_num,false);
 			for (int i = 0; i < agent_num; ++i)
 			{
-				if (assigned_rows[i] == 1)
-					continue;
-
-				for (int j = 0; j < target_num; ++j)
+				if (indep_zero_rows_index[i] != 1)
 				{
-					if (assigned_cols[j] == 1)
+					check_rows[i] = false;
+				}
+			}
+
+			bool is = true;
+			while(is)
+			{
+				is = false;
+				/*mark the cols which has a zero element in these rows*/
+				for (int i = 0; i < agent_num; ++i)
+				{
+					if (check_rows[i] != false)
 						continue;
 
-					if (costMatrix.at<int>(i,j) == 0)
+					for (int j = 0; j < target_num; ++j)
 					{
-						assignment.at<int>(i,j) = 1;
-						assigned_rows[i] = 1;
-						assigned_cols[j] = 1;
-						assigned_num++;
+						if (costMatrix.at<int>(i,j) == 0 && check_cols[j] != true)
+						{
+							check_cols[j] = true;
+							is = true;
+						}
+					}
+				}
+
+				/*mark the rows which has a independent zero element in these cols*/
+				for (int j = 0; j < target_num; ++j)
+				{
+					if (check_cols[j] != true)
+						continue;
+
+					for (int i = 0; i < ass_vec.size(); ++i)
+					{
+						if (ass_vec[i](1) == j && check_rows[ass_vec[i](0)] != false)
+						{
+							check_rows[ass_vec[i](0)] = false;
+							is = true;
+						}
 					}
 				}
 			}
 
+			/*update the costMatrix*/
+			//find the minima element in cost matrix from those which have not been covered
 			int tmp_min = -1;
 			for (int i = 0; i < agent_num; ++i)
 			{
-				if (assigned_rows[i] == 1)
+				if (check_rows[i] == true)
 					continue;
 
 				for (int j = 0; j < target_num; ++j)
 				{
-					if (assigned_cols[j] == 1)
+					if (check_cols[j] == true)
 						continue;
 
-					if (costMatrix.at<int>(i,j) > tmp_min || tmp_min < 0)
+					if (costMatrix.at<int>(i,j) < tmp_min || tmp_min < 0)
 					{
 						tmp_min = costMatrix.at<int>(i,j);
 					}
 				}
 			}
-
+			//uncovered area subtracts the minima and cross elements add the minima
 			for (int i = 0; i < agent_num; ++i)
 			{
-				if (assigned_rows[i] == 1)
-					continue;
-
-				for (int j = 0; j < target_num; ++j)
+				if (check_rows[i] == true)
 				{
-					if (assigned_cols[j] == 1)
-						continue;
+					for (int j = 0; j < target_num; ++j)
+					{
+						if (check_cols[j] == true)
+							costMatrix.at<int>(i,j) = costMatrix.at<int>(i,j) + tmp_min;
+					}
+				} else {
+					for (int j = 0; j < target_num; ++j)
+					{
+						if (check_cols[j] == true)
+							continue;
 
-					costMatrix.at<int>(i,j) = costMatrix.at<int>(i,j) - tmp_min;
+						costMatrix.at<int>(i,j) = costMatrix.at<int>(i,j) - tmp_min;
+					}
 				}
 			}
+
+			/*empty the ass_vec, independent zero indecies*/
+			for (int i = 0; i < ass_vec.size(); ++i)
+			{
+				printf("independent zero : (%d, %d)\n", ass_vec[i](0), ass_vec[i](1));
+			}
+			ass_vec.clear();
+			for (int i = 0; i < agent_num; ++i)
+			{
+				indep_zero_rows_index[i] = -1;
+				indep_zero_cols_index[i] = -1;
+			}
+			/*show init*/
+			for (int i = 0; i < agent_num; ++i)
+			{
+				for (int j = 0; j < target_num; ++j)
+				{
+					printf("costMatrix[%d,%d] = %d\n", i,j,costMatrix.at<int>(i,j));
+				}
+			}
+			waitKey();
 		}
 
-		for (int i = 0; i < agent_num; ++i)
+
+		for (int i = 0; i < ass_vec.size(); ++i)
+		{
+			assignment.at<int>(ass_vec[i](0),ass_vec[i](1)) = 1;
+			printf("assignment[%d,%d] = %d\n", ass_vec[i](0),ass_vec[i](1),assignment.at<int>(ass_vec[i](0),ass_vec[i](1)));
+		}
+
+		//printf("find() : %d\n", find(costMatrix,assignment));
+		
+		/*show the results*/
+		/*for (int i = 0; i < agent_num; ++i)
 		{
 			for (int j = 0; j < target_num; ++j)
 			{
 				printf("assignment[%d,%d] = %d\n", i,j,assignment.at<int>(i,j));
 			}
-		}
+		}*/
 		//imshow("vicon_test", src);
 	}
 };
