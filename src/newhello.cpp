@@ -25,6 +25,7 @@ int p0_x=-1,p0_y=-1,p1_x=-1,p1_y=-1;
 int roi_width;
 int roi_height;
 int target_x, target_y;
+float shift_scale = 0.0001;
 Mat target;
 Mat src_depth_img;
 Mat src_rgb_img;
@@ -130,7 +131,7 @@ void iteration(const ros::TimerEvent& e)
 		// imshow("roi",src_rgb_roi);
 		// waitKey(0);
 		// destroyWindow("roi");
-		Mat src_hsv_img,img_h;
+		Mat src_hsv_img;
 		vector<Mat> hsv_vec;
 		cvtColor(src_rgb_roi,src_hsv_img,CV_BGR2HSV_FULL);
 		split(src_hsv_img,hsv_vec);
@@ -155,10 +156,60 @@ void iteration(const ros::TimerEvent& e)
 		// ROS_INFO("mean : %d",mean);
 	  // destroyWindow("view");
 	} else {
+		/*fitering*/
 		src_rgb_img.setTo((0,0,0),mask);
-		imshow("after mask",src_rgb_img);
+		// imshow("after mask",src_rgb_img);
+		// waitKey(0);
+		// destroyWindow("after mask");
+		bool stop = false;
+		while(!stop)
+		{
+			/*obtain roi in HSV form*/
+			Mat src_rgb_roi = src_rgb_img(Rect(target_x-roi_width/2,target_y-roi_height/2,roi_width,roi_height));
+			Mat src_hsv_img, img_h;
+			vector<Mat> hsv_vec;
+			cvtColor(src_rgb_roi,src_hsv_img,CV_BGR2HSV_FULL);
+			split(src_hsv_img,hsv_vec);
+			img_h = hsv_vec[0];
+
+			/*calculate the shift vector*/
+			float shift_x=0.0, shift_y=0.0;
+			for (int i = 0; i < img_h.rows; ++i)
+			{
+				for (int j = 0; j < img_h.cols; ++j)
+				 {
+					shift_x += (i-target_x)*(255-abs(img_h.at<uchar>(i,j)-target.at<uchar>(i,j)))*shift_scale;
+				 	shift_y += (j-target_y)*(255-abs(img_h.at<uchar>(i,j)-target.at<uchar>(i,j)))*shift_scale;
+				 } 
+			}
+			ROS_INFO("need to tune the shift_scale ~~~ shift_x : %f ~~~ shift_y : %f", shift_x, shift_y);
+			if (fabs(shift_x) < 5 && fabs(shift_y) < 5)
+			{
+				stop = true;
+			} else {
+				bool x_stop = false, y_stop = false;
+				if (target_x+shift_x-roi_width/2>0 && target_x+shift_x-roi_width/2<src_rgb_img.rows)
+				{
+					target_x += shift_x;
+				} else {
+					x_stop = true;
+				}
+				if (target_y+shift_y-roi_height/2>0 && target_y+shift_y-roi_height/2<src_rgb_img.cols)
+				{
+					target_y += shift_y;
+				} else {
+					y_stop = true;
+				}
+				if (x_stop && y_stop)
+				{
+					stop = true;
+				}
+			}
+		}
+		rectangle(src_rgb_img,Rect(target_x-roi_width/2,target_y-roi_height/2,roi_width,roi_height),Scalar(0,0,255),1,1,0);
+		imshow("monitor",src_rgb_img);
 		waitKey(0);
-		destroyWindow("after mask");
+		destroyWindow("monitor");
 	}
 
 }
