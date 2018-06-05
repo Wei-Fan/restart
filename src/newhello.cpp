@@ -5,47 +5,124 @@
 #include <opencv2/opencv.hpp>
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
+#include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
+#include <image_transport/image_transport.h>
 
 using namespace cv;
 using namespace std;
 
 #define WINDOW_WIDTH 600
-void DrawEllipse(Mat, double);
-void DrawFilledCircle(Mat, Point);
-void DrawLine(Mat, Point, Point);
-bool ROI_AddImage();
-bool LinearBlending();
+// void DrawEllipse(Mat, double);
+// void DrawFilledCircle(Mat, Point);
+// void DrawLine(Mat, Point, Point);
+// bool ROI_AddImage();
+// bool LinearBlending();
+bool isFirst = true;
+Mat src_depth_img;
+Mat src_rgb_img;
+Mat tmp_img;
+void depth_imagecb(const sensor_msgs::ImageConstPtr& depth_msg)
+{
+
+	cv_bridge::CvImagePtr cv_ptr;
+    // sensor_msgs::Image img = *depth_msg;
+    cv_ptr = cv_bridge::toCvCopy(depth_msg, sensor_msgs::image_encodings::TYPE_32FC1);
+    src_depth_img = cv_ptr->image;
+    
+    Mat mask = Mat(src_depth_img != src_depth_img);
+    src_depth_img.setTo(10,mask);
+    tmp_img = Mat::zeros(src_depth_img.size(),CV_8UC1);
+
+    int rows = src_depth_img.rows;
+    int cols = src_depth_img.cols;
+
+    for (int i = 0; i < rows; ++i)
+    {
+    	for (int j = 0; j < cols; ++j)
+    	{
+    		float t = src_depth_img.at<float>(i,j)*255/10;
+    		ROS_INFO("%d, %d ~~~~ %d", i,j,uint(t));
+    		
+    		if (t > 60)
+    			tmp_img.at<uchar>(i,j) = 255;
+    		else
+    			tmp_img.at<uchar>(i,j) = uchar(t);
+    	}
+    }
+    // blur(tmp_img, tmp_img, Size(7, 7));
+    imwrite("src/restart/src/test.png",tmp_img);//test alright
+    // ROS_INFO("~~~ max : %f ~~~ min : %f",max, min);
+}
+
+void rgb_imagecb(const sensor_msgs::ImageConstPtr& depth_msg)
+{
+
+	cv_bridge::CvImagePtr cv_ptr;
+    // sensor_msgs::Image img = *depth_msg;
+    cv_ptr = cv_bridge::toCvCopy(depth_msg, sensor_msgs::image_encodings::BGR8);
+    src_rgb_img = cv_ptr->image;
+    
+    
+    imwrite("src/restart/src/test1.png",src_rgb_img);//test alright
+    // ROS_INFO("~~~ max : %f ~~~ min : %f",max, min);
+}
+
+void iteration(const ros::TimerEvent& e)
+{
+	if (isFirst)
+	{
+	  isFirst = false;
+	}
+
+}
 
 int main(int argc, char **argv)
 {
 	ros::init(argc, argv, "test_platform");
 	ros::NodeHandle n;
-	ros::Publisher img_pub = n.advertise<sensor_msgs::Image>("TestImage", 1000);
+	// cv::namedWindow("view");
+  	// cv::startWindowThread();
+	// ros::Publisher img_pub = n.advertise<sensor_msgs::Image>("TestImage", 1000);
+	ros::Subscriber depth_img_sub = n.subscribe<sensor_msgs::Image>("/camera/depth/image_rect", 1, depth_imagecb);
+	ros::Subscriber color_img_sub = n.subscribe<sensor_msgs::Image>("/camera/rgb/image_rect_color", 1, rgb_imagecb);
 	ros::Rate rate(10);
+	ros::Timer timer = n.createTimer(ros::Duration(0.02), iteration);
+    
+	// while(ros::ok())
+	// {
+	// 	imshow("view",tmp_img);
+	// 	// waitKey(0);
+	// 	ros::spinOnce();
+	// 	rate.sleep();
+	// }
+	ros::spin();
+
 	
-	while (ros::ok()) {
-		Mat source = imread("/home/wade/catkin_ws/src/restart/src/HA.jpg");
-		if (source.empty())
-		{
-			cout << "cannot find the source image!" << endl;
-			return -1;
-		}
+	// cv::destroyWindow("view");
+	// while (ros::ok()) {
+	// Mat source = imread("/home/wade/catkin_ws/src/restart/src/test2.png");
+	// if (source.empty())
+	// {
+	// 	cout << "cannot find the source image!" << endl;
+	// 	return -1;
+	// }
 
-		imshow("beforePub", source);
-		waitKey(0);
+	// imshow("beforePub", source);
+	// waitKey(0);
 
-		cv_bridge::CvImage img_bridge;
-		sensor_msgs::Image img_msg;
+	// // 	cv_bridge::CvImage img_bridge;
+	// // 	sensor_msgs::Image img_msg;
 
-		std_msgs::Header header;
-		header.stamp = ros::Time::now();
-		img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::RGB8, source);
-		img_bridge.toImageMsg(img_msg);
-		img_pub.publish(img_msg);
+	// // 	std_msgs::Header header;
+	// // 	header.stamp = ros::Time::now();
+	// // 	img_bridge = cv_bridge::CvImage(header, sensor_msgs::image_encodings::RGB8, source);
+	// // 	img_bridge.toImageMsg(img_msg);
+	// // 	img_pub.publish(img_msg);
 		
-		ros::spinOnce();
-		rate.sleep();
-	}
+	// // 	ros::spinOnce();
+	// // 	rate.sleep();
+	// }
 	
 	/*3 channels matrix (RGB image)*/
 	/*

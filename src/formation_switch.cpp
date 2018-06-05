@@ -54,7 +54,7 @@ public:
 			namedWindow("vicon_test");	
 			Point p1 = Point(50,50);
 			Point p2 = Point(950,950);
-			rectangle(src, p1, p2, CV_RGB(0, 0, 255), -1);	
+			rectangle(src, p1, p2, CV_RGB(245, 245, 245), -1);	
 			imshow("vicon_test", src);
 
 			setMouseCallback("vicon_test", onMouse, &src);
@@ -101,7 +101,7 @@ public:
 		Mat *img = (Mat*)userInput;
 		if (!isAgentDone)
 		{
-			circle(*img, Point(x, y), 10, Scalar(255, 0, 255));
+			circle(*img, Point(x, y), 10, Scalar(255, 0, 255), 2);
 			imshow("vicon_test", *img);
 			x_init.push_back(x);//x_world);
 			y_init.push_back(y);//y_world);
@@ -109,7 +109,7 @@ public:
 			
 		} else if (isAgentDone)
 		{
-			circle(*img, Point(x, y), 10, Scalar(0, 255, 0));
+			circle(*img, Point(x, y), 10, Scalar(0, 255, 0), 2);
 			imshow("vicon_test", *img);
 			x_target.push_back(x);//x_world);
 			y_target.push_back(y);//y_world);
