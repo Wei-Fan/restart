@@ -19,9 +19,16 @@ using namespace std;
 // bool ROI_AddImage();
 // bool LinearBlending();
 bool isFirst = true;
+bool recieve = false;
+// bool init_done = false;
+int p0_x=-1,p0_y=-1,p1_x=-1,p1_y=-1;
+int roi_width;
+int roi_height;
+int target_x, target_y;
+Mat target;
 Mat src_depth_img;
 Mat src_rgb_img;
-Mat tmp_img;
+Mat mask;
 void depth_imagecb(const sensor_msgs::ImageConstPtr& depth_msg)
 {
 
@@ -30,9 +37,11 @@ void depth_imagecb(const sensor_msgs::ImageConstPtr& depth_msg)
     cv_ptr = cv_bridge::toCvCopy(depth_msg, sensor_msgs::image_encodings::TYPE_32FC1);
     src_depth_img = cv_ptr->image;
     
-    Mat mask = Mat(src_depth_img != src_depth_img);
-    src_depth_img.setTo(10,mask);
-    tmp_img = Mat::zeros(src_depth_img.size(),CV_8UC1);
+    Mat tmp_mask = Mat(src_depth_img != src_depth_img);
+    src_depth_img.setTo(10,tmp_mask);
+    mask = Mat::zeros(src_depth_img.size(),CV_8UC1);
+
+    blur(src_depth_img, src_depth_img, Size(3,3));
 
     int rows = src_depth_img.rows;
     int cols = src_depth_img.cols;
@@ -41,17 +50,18 @@ void depth_imagecb(const sensor_msgs::ImageConstPtr& depth_msg)
     {
     	for (int j = 0; j < cols; ++j)
     	{
-    		float t = src_depth_img.at<float>(i,j)*255/10;
-    		ROS_INFO("%d, %d ~~~~ %d", i,j,uint(t));
-    		
-    		if (t > 60)
-    			tmp_img.at<uchar>(i,j) = 255;
+    		float t = src_depth_img.at<float>(i,j)*255/10;    		
+    		if (t > 80)
+    			// mask.at<uchar>(i,j) = 255;
+    			mask.at<uchar>(i,j) = 255;
     		else
-    			tmp_img.at<uchar>(i,j) = uchar(t);
+    			// mask.at<uchar>(i,j) = uchar(t);
+    			mask.at<uchar>(i,j) = 0;
     	}
     }
-    // blur(tmp_img, tmp_img, Size(7, 7));
-    imwrite("src/restart/src/test.png",tmp_img);//test alright
+    // imshow("mask",mask);
+    // waitKey(0);
+    // imwrite("src/restart/src/test.png",tmp_img);//test alright
     // ROS_INFO("~~~ max : %f ~~~ min : %f",max, min);
 }
 
@@ -64,15 +74,91 @@ void rgb_imagecb(const sensor_msgs::ImageConstPtr& depth_msg)
     src_rgb_img = cv_ptr->image;
     
     
-    imwrite("src/restart/src/test1.png",src_rgb_img);//test alright
+    // imwrite("src/restart/src/pm_test.png",src_rgb_img);//test alright
     // ROS_INFO("~~~ max : %f ~~~ min : %f",max, min);
+    recieve = true;
+}
+
+static void onMouse(int event, int x, int y, int, void* userInput)
+{
+	if (event != EVENT_LBUTTONDOWN && event != EVENT_LBUTTONUP) return;
+	//printf("###########onMouse x : %d\n", x);
+	//printf("###########onMouse y : %d\n", y);
+	
+	Mat *img = (Mat*)userInput;
+	if (event == EVENT_LBUTTONDOWN)
+	{
+		p0_x = x;
+		p0_y = y;
+	} else if (event == EVENT_LBUTTONUP)
+	{
+		p1_x = x;
+		p1_y = y;
+		roi_width = abs(p1_x - p0_x);
+		roi_height = abs(p1_y - p0_y);
+		target_x = (p0_x+p1_x)/2;
+		target_y = (p0_y+p1_y)/2;
+		rectangle(*img,Rect(p0_x,p0_y,roi_width,roi_height),Scalar(0,0,255),1,1,0);
+		imshow("view",*img);
+	}
 }
 
 void iteration(const ros::TimerEvent& e)
 {
+	// ROS_INFO("iteration~~~~");
+	if (!recieve)
+		return;
 	if (isFirst)
 	{
-	  isFirst = false;
+		isFirst = false;
+		Mat src_rgb_img_0 = src_rgb_img;
+		bool init_done = false;
+		while(!init_done)
+		{
+			namedWindow("view");
+			imshow("view",src_rgb_img_0);
+			setMouseCallback("view", onMouse, &src_rgb_img_0);
+			waitKey(0);
+			destroyWindow("view");
+			if (p1_x>0)
+			{
+				init_done = true;
+			}
+		}
+		ROS_INFO("init done ~~~");
+		Mat src_rgb_roi = src_rgb_img(Rect(p0_x,p0_y,roi_width,roi_height));
+		// imshow("roi",src_rgb_roi);
+		// waitKey(0);
+		// destroyWindow("roi");
+		Mat src_hsv_img,img_h;
+		vector<Mat> hsv_vec;
+		cvtColor(src_rgb_roi,src_hsv_img,CV_BGR2HSV_FULL);
+		split(src_hsv_img,hsv_vec);
+		target = hsv_vec[0];
+
+		// imshow("H",img_h);
+		// waitKey(0);
+		// destroyWindow("H");
+		// // img_h.convertTo(img_h,CV_32F);
+
+		// ROS_INFO("convert done ~~~");
+		// int mean = 0;
+		// for (int i = 0; i < img_h.rows; ++i)
+		// {
+		// 	for (int j = 0; j < img_h.cols; ++j)
+		// 	 {
+		// 	 	// ROS_INFO("%d, %d : %d",i,j,img_h.at<uchar>(i,j));
+		// 	 	mean += img_h.at<uchar>(i,j);
+		// 	 } 
+		// }
+		// mean = int(mean/(roi_width*roi_height));
+		// ROS_INFO("mean : %d",mean);
+	  // destroyWindow("view");
+	} else {
+		src_rgb_img.setTo((0,0,0),mask);
+		imshow("after mask",src_rgb_img);
+		waitKey(0);
+		destroyWindow("after mask");
 	}
 
 }
@@ -87,7 +173,7 @@ int main(int argc, char **argv)
 	ros::Subscriber depth_img_sub = n.subscribe<sensor_msgs::Image>("/camera/depth/image_rect", 1, depth_imagecb);
 	ros::Subscriber color_img_sub = n.subscribe<sensor_msgs::Image>("/camera/rgb/image_rect_color", 1, rgb_imagecb);
 	ros::Rate rate(10);
-	ros::Timer timer = n.createTimer(ros::Duration(0.02), iteration);
+	ros::Timer timer = n.createTimer(ros::Duration(1), iteration);
     
 	// while(ros::ok())
 	// {
