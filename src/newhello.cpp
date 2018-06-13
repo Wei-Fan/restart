@@ -25,7 +25,8 @@ int p0_x=-1,p0_y=-1,p1_x=-1,p1_y=-1;
 int roi_width;
 int roi_height;
 int target_x, target_y;
-float shift_scale = 0.0001;
+float zero_shift_x, zero_shift_y;
+float shift_scale = 0.03;
 Mat target;
 Mat src_depth_img;
 Mat src_rgb_img;
@@ -42,7 +43,7 @@ void depth_imagecb(const sensor_msgs::ImageConstPtr& depth_msg)
     src_depth_img.setTo(10,tmp_mask);
     mask = Mat::zeros(src_depth_img.size(),CV_8UC1);
 
-    blur(src_depth_img, src_depth_img, Size(3,3));
+    // blur(src_depth_img, src_depth_img, Size(3,3));
 
     int rows = src_depth_img.rows;
     int cols = src_depth_img.cols;
@@ -91,10 +92,12 @@ static void onMouse(int event, int x, int y, int, void* userInput)
 	{
 		p0_x = x;
 		p0_y = y;
+		ROS_INFO("p0 : (%d,%d)",p0_x,p0_y);
 	} else if (event == EVENT_LBUTTONUP)
 	{
 		p1_x = x;
 		p1_y = y;
+		ROS_INFO("p1 : (%d,%d)",p1_x,p1_y);
 		roi_width = abs(p1_x - p0_x);
 		roi_height = abs(p1_y - p0_y);
 		target_x = (p0_x+p1_x)/2;
@@ -137,6 +140,15 @@ void iteration(const ros::TimerEvent& e)
 		split(src_hsv_img,hsv_vec);
 		target = hsv_vec[0];
 
+		for (int i = 0; i < target.rows; ++i)
+		{
+			for (int j = 0; j < target.cols; ++j)
+			 {
+				zero_shift_x += (j-target_x)*shift_scale/roi_width/roi_height;
+			 	zero_shift_y += (i-target_y)*shift_scale/roi_width/roi_height;
+			 } 
+		}
+		ROS_INFO("zero shift : (%f, %f)", zero_shift_x,zero_shift_y);
 		// imshow("H",img_h);
 		// waitKey(0);
 		// destroyWindow("H");
@@ -172,31 +184,47 @@ void iteration(const ros::TimerEvent& e)
 			split(src_hsv_img,hsv_vec);
 			img_h = hsv_vec[0];
 
-			/*calculate the shift vector*/
-			float shift_x=0.0, shift_y=0.0;
 			for (int i = 0; i < img_h.rows; ++i)
 			{
 				for (int j = 0; j < img_h.cols; ++j)
 				 {
-					shift_x += (i-target_x)*(255-abs(img_h.at<uchar>(i,j)-target.at<uchar>(i,j)))*shift_scale;
-				 	shift_y += (j-target_y)*(255-abs(img_h.at<uchar>(i,j)-target.at<uchar>(i,j)))*shift_scale;
+				 	int tmp_diff = abs(img_h.at<uchar>(i,j) - target.at<uchar>(i,j));
+				 	if (tmp_diff > 15)
+				 	{
+				 		img_h.at<uchar>(i,j) = 0;
+				 	} else {
+				 		img_h.at<uchar>(i,j) = 1;
+				 	}
 				 } 
 			}
-			ROS_INFO("need to tune the shift_scale ~~~ shift_x : %f ~~~ shift_y : %f", shift_x, shift_y);
-			if (fabs(shift_x) < 5 && fabs(shift_y) < 5)
+
+			/*calculate the shift vector*/
+			float shift_x=-zero_shift_x, shift_y=-zero_shift_y;
+			for (int i = 0; i < img_h.rows; ++i)
+			{
+				for (int j = 0; j < img_h.cols; ++j)
+				 {
+					shift_x += (j-target_x)*img_h.at<uchar>(i,j)*shift_scale/roi_width/roi_height;
+				 	shift_y += (i-target_y)*img_h.at<uchar>(i,j)*shift_scale/roi_width/roi_height;
+				 } 
+			}
+			ROS_INFO("shift_x : %f ~~~ shift_y : %f", shift_x, shift_y);
+			if (fabs(shift_x) < 2.5 && fabs(shift_y) < 2.5)
 			{
 				stop = true;
 			} else {
+				int shift_x_ = int(shift_x);
+				int shift_y_ = int(shift_y);
 				bool x_stop = false, y_stop = false;
-				if (target_x+shift_x-roi_width/2>0 && target_x+shift_x-roi_width/2<src_rgb_img.rows)
+				if (target_x+shift_x_-roi_width/2>0 && target_x+shift_x_-roi_width/2<src_rgb_img.cols)
 				{
-					target_x += shift_x;
+					target_x += shift_x_;
 				} else {
 					x_stop = true;
 				}
-				if (target_y+shift_y-roi_height/2>0 && target_y+shift_y-roi_height/2<src_rgb_img.cols)
+				if (target_y+shift_y_-roi_height/2>0 && target_y+shift_y_-roi_height/2<src_rgb_img.rows)
 				{
-					target_y += shift_y;
+					target_y += shift_y_;
 				} else {
 					y_stop = true;
 				}
@@ -206,6 +234,7 @@ void iteration(const ros::TimerEvent& e)
 				}
 			}
 		}
+		ROS_INFO("target x : %d ~~~ y : %d",target_x, target_y);
 		rectangle(src_rgb_img,Rect(target_x-roi_width/2,target_y-roi_height/2,roi_width,roi_height),Scalar(0,0,255),1,1,0);
 		imshow("monitor",src_rgb_img);
 		waitKey(0);

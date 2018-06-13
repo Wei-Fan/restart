@@ -125,11 +125,14 @@ FIND_PACKAGE(OpenCV REQUIRED)
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES restart
+  INCLUDE_DIRS
+  LIBRARIES ${PROJECT_NAME}
   CATKIN_DEPENDS
   message_runtime
   roscpp rospy 
   std_msgs
   vicon_bridge
+  visualization_msgs
 #  DEPENDS system_lib
 )
 
@@ -166,6 +169,7 @@ add_executable(listener src/listener.cpp)
 add_executable(add_two_ints_server src/add_two_ints_server.cpp)
 add_executable(add_two_ints_client src/add_two_ints_client.cpp)
 add_executable(newhello src/newhello.cpp)
+add_executable(turtlebot_test src/turtlebot_test.cpp)
 add_executable(secondMajor src/secondMajor.cpp)
 add_executable(m_opencv_test src/m_opencv_test.cpp)
 add_executable(marker_test src/marker_test.cpp)
@@ -197,6 +201,7 @@ target_link_libraries(listener ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_server ${catkin_LIBRARIES})
 target_link_libraries(add_two_ints_client ${catkin_LIBRARIES})
 target_link_libraries(newhello ${catkin_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(turtlebot_test ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(secondMajor ${catkin_LIBRARIES})
 target_link_libraries(m_opencv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(marker_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
