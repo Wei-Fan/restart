@@ -1,0 +1,4 @@
+num_robots: 40 
+connectivity_radius: 15
+behaviour_lib: "formation_control_behavior"
+

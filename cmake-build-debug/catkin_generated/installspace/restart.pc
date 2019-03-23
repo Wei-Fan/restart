@@ -1,0 +1,8 @@
+prefix=/usr/local
+
+Name: restart
+Description: Description of restart
+Version: 0.0.0
+Cflags: -I/usr/local/include
+Libs: -L/usr/local/lib -lrestart
+Requires: message_runtime roscpp rospy std_msgs vicon_bridge visualization_msgs

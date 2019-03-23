@@ -172,14 +172,15 @@ add_executable(newhello src/newhello.cpp)
 add_executable(turtlebot_test src/turtlebot_test.cpp)
 add_executable(secondMajor src/secondMajor.cpp)
 add_executable(m_opencv_test src/m_opencv_test.cpp)
-add_executable(marker_test src/marker_test.cpp)
-add_executable(marker_testv2 src/marker_testv2.cpp)
-add_executable(marker_testv3 src/marker_testv3.cpp)
+#add_executable(marker_test src/marker_test.cpp)
+#add_executable(marker_testv2 src/marker_testv2.cpp)
+#add_executable(marker_testv3 src/marker_testv3.cpp)
 add_executable(formation_switch src/formation_switch.cpp)
 add_executable(find_test src/find_test.cpp)
 add_executable(glhello src/glhello.cpp)
 add_executable(count_server src/count_server.cpp)
 add_executable(count_client src/count_client.cpp)
+#add_executable(yaml_test src/yaml_test.cpp)#not right now
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -204,15 +205,15 @@ target_link_libraries(newhello ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(turtlebot_test ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(secondMajor ${catkin_LIBRARIES})
 target_link_libraries(m_opencv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
-target_link_libraries(marker_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
-target_link_libraries(marker_testv2 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
-target_link_libraries(marker_testv3 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+#target_link_libraries(marker_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+#target_link_libraries(marker_testv2 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+#target_link_libraries(marker_testv3 ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(formation_switch ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(find_test ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(glhello ${catkin_LIBRARIES})
 target_link_libraries(count_server ${catkin_LIBRARIES})
 target_link_libraries(count_client ${catkin_LIBRARIES})
-
+#target_link_libraries(yaml_test ${catkin_LIBRARIES}) #not right now
 
 #############
 ## Install ##

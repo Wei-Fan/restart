@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/wade/catkin_ws/src/restart/cmake-build-debug/devel/setup.sh
