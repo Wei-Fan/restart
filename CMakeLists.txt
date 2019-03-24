@@ -214,7 +214,7 @@ target_link_libraries(find_test ${catkin_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(glhello ${catkin_LIBRARIES})
 target_link_libraries(count_server ${catkin_LIBRARIES})
 target_link_libraries(count_client ${catkin_LIBRARIES})
-target_link_libraries(swarm_commander ${catkin_LIBRARIES})
+target_link_libraries(swarm_commander ${catkin_LIBRARIES} ${OpenCV_LIBS})
 #target_link_libraries(yaml_test ${catkin_LIBRARIES}) #not right now
 
 #############

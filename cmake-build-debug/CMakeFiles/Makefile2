@@ -65,6 +65,43 @@ CMAKE_SOURCE_DIR = /home/wade/catkin_ws/src/restart
 CMAKE_BINARY_DIR = /home/wade/catkin_ws/src/restart/cmake-build-debug
 
 #=============================================================================
+# Target rules for target CMakeFiles/swarm_commander.dir
+
+# All Build rule for target.
+CMakeFiles/swarm_commander.dir/all:
+	$(MAKE) -f CMakeFiles/swarm_commander.dir/build.make CMakeFiles/swarm_commander.dir/depend
+	$(MAKE) -f CMakeFiles/swarm_commander.dir/build.make CMakeFiles/swarm_commander.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles --progress-num=62,63 "Built target swarm_commander"
+.PHONY : CMakeFiles/swarm_commander.dir/all
+
+# Include target in all.
+all: CMakeFiles/swarm_commander.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/swarm_commander.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles 2
+	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/swarm_commander.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles 0
+.PHONY : CMakeFiles/swarm_commander.dir/rule
+
+# Convenience name for target.
+swarm_commander: CMakeFiles/swarm_commander.dir/rule
+
+.PHONY : swarm_commander
+
+# clean rule for target.
+CMakeFiles/swarm_commander.dir/clean:
+	$(MAKE) -f CMakeFiles/swarm_commander.dir/build.make CMakeFiles/swarm_commander.dir/clean
+.PHONY : CMakeFiles/swarm_commander.dir/clean
+
+# clean rule for target.
+clean: CMakeFiles/swarm_commander.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target CMakeFiles/count_client.dir
 
 # All Build rule for target.
@@ -558,43 +595,6 @@ CMakeFiles/_restart_generate_messages_check_deps_CountNumber.dir/clean:
 
 # clean rule for target.
 clean: CMakeFiles/_restart_generate_messages_check_deps_CountNumber.dir/clean
-
-.PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/yaml_test.dir
-
-# All Build rule for target.
-CMakeFiles/yaml_test.dir/all:
-	$(MAKE) -f CMakeFiles/yaml_test.dir/build.make CMakeFiles/yaml_test.dir/depend
-	$(MAKE) -f CMakeFiles/yaml_test.dir/build.make CMakeFiles/yaml_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles --progress-num=66,67 "Built target yaml_test"
-.PHONY : CMakeFiles/yaml_test.dir/all
-
-# Include target in all.
-all: CMakeFiles/yaml_test.dir/all
-
-.PHONY : all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/yaml_test.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles 2
-	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/yaml_test.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles 0
-.PHONY : CMakeFiles/yaml_test.dir/rule
-
-# Convenience name for target.
-yaml_test: CMakeFiles/yaml_test.dir/rule
-
-.PHONY : yaml_test
-
-# clean rule for target.
-CMakeFiles/yaml_test.dir/clean:
-	$(MAKE) -f CMakeFiles/yaml_test.dir/build.make CMakeFiles/yaml_test.dir/clean
-.PHONY : CMakeFiles/yaml_test.dir/clean
-
-# clean rule for target.
-clean: CMakeFiles/yaml_test.dir/clean
 
 .PHONY : clean
 
@@ -2154,7 +2154,7 @@ clean: CMakeFiles/vicon_bridge_generate_messages_nodejs.dir/clean
 CMakeFiles/turtlebot_test.dir/all:
 	$(MAKE) -f CMakeFiles/turtlebot_test.dir/build.make CMakeFiles/turtlebot_test.dir/depend
 	$(MAKE) -f CMakeFiles/turtlebot_test.dir/build.make CMakeFiles/turtlebot_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles --progress-num=64,65 "Built target turtlebot_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles --progress-num=66,67 "Built target turtlebot_test"
 .PHONY : CMakeFiles/turtlebot_test.dir/all
 
 # Include target in all.
@@ -2319,7 +2319,7 @@ clean: CMakeFiles/vicon_bridge_generate_messages_lisp.dir/clean
 CMakeFiles/talker.dir/all: CMakeFiles/restart_generate_messages_cpp.dir/all
 	$(MAKE) -f CMakeFiles/talker.dir/build.make CMakeFiles/talker.dir/depend
 	$(MAKE) -f CMakeFiles/talker.dir/build.make CMakeFiles/talker.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles --progress-num=62,63 "Built target talker"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/wade/catkin_ws/src/restart/cmake-build-debug/CMakeFiles --progress-num=64,65 "Built target talker"
 .PHONY : CMakeFiles/talker.dir/all
 
 # Include target in all.

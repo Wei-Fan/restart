@@ -2,87 +2,87 @@
 <project version="4">
   <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
     <generated>
-      <config projectName="restart" targetName="gtest" />
-      <config projectName="restart" targetName="roscpp_generate_messages_eus" />
-      <config projectName="restart" targetName="restart_generate_messages_eus" />
-      <config projectName="restart" targetName="roscpp_generate_messages_lisp" />
-      <config projectName="restart" targetName="count_client" />
-      <config projectName="restart" targetName="gmock" />
-      <config projectName="restart" targetName="tests" />
       <config projectName="restart" targetName="geometry_msgs_generate_messages_lisp" />
-      <config projectName="restart" targetName="gtest_main" />
-      <config projectName="restart" targetName="sensor_msgs_generate_messages_nodejs" />
-      <config projectName="restart" targetName="std_msgs_generate_messages_cpp" />
-      <config projectName="restart" targetName="roscpp_generate_messages_py" />
-      <config projectName="restart" targetName="vicon_bridge_generate_messages_nodejs" />
-      <config projectName="restart" targetName="add_two_ints_server" />
-      <config projectName="restart" targetName="std_srvs_generate_messages_eus" />
-      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_lisp" />
-      <config projectName="restart" targetName="geometry_msgs_generate_messages_cpp" />
-      <config projectName="restart" targetName="std_msgs_generate_messages_nodejs" />
-      <config projectName="restart" targetName="clean_test_results" />
-      <config projectName="restart" targetName="sensor_msgs_generate_messages_py" />
-      <config projectName="restart" targetName="listener" />
-      <config projectName="restart" targetName="restart_genpy" />
       <config projectName="restart" targetName="find_test" />
+      <config projectName="restart" targetName="gtest_main" />
+      <config projectName="restart" targetName="tests" />
+      <config projectName="restart" targetName="vicon_bridge_generate_messages_nodejs" />
+      <config projectName="restart" targetName="restart_geneus" />
+      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_nodejs" />
       <config projectName="restart" targetName="roscpp_generate_messages_cpp" />
-      <config projectName="restart" targetName="restart_generate_messages_cpp" />
-      <config projectName="restart" targetName="restart_generate_messages_lisp" />
-      <config projectName="restart" targetName="restart_gennodejs" />
-      <config projectName="restart" targetName="_restart_generate_messages_check_deps_pos_est" />
-      <config projectName="restart" targetName="yaml_test" />
-      <config projectName="restart" targetName="restart_generate_messages_nodejs" />
-      <config projectName="restart" targetName="restart_genlisp" />
-      <config projectName="restart" targetName="vicon_bridge_generate_messages_eus" />
-      <config projectName="restart" targetName="std_srvs_generate_messages_cpp" />
-      <config projectName="restart" targetName="_restart_generate_messages_check_deps_Num" />
-      <config projectName="restart" targetName="_restart_generate_messages_check_deps_CountNumber" />
-      <config projectName="restart" targetName="geometry_msgs_generate_messages_eus" />
+      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_nodejs" />
+      <config projectName="restart" targetName="restart_gencpp" />
+      <config projectName="restart" targetName="vicon_bridge_generate_messages_py" />
       <config projectName="restart" targetName="std_srvs_generate_messages_lisp" />
+      <config projectName="restart" targetName="glhello" />
+      <config projectName="restart" targetName="restart_generate_messages_nodejs" />
+      <config projectName="restart" targetName="count_client" />
+      <config projectName="restart" targetName="listener" />
+      <config projectName="restart" targetName="add_two_ints_client" />
       <config projectName="restart" targetName="_restart_generate_messages_check_deps_NodeExampleData" />
       <config projectName="restart" targetName="vicon_bridge_generate_messages_lisp" />
-      <config projectName="restart" targetName="doxygen" />
-      <config projectName="restart" targetName="secondMajor" />
-      <config projectName="restart" targetName="dynamic_reconfigure_gencfg" />
-      <config projectName="restart" targetName="sensor_msgs_generate_messages_cpp" />
-      <config projectName="restart" targetName="restart_gencpp" />
-      <config projectName="restart" targetName="talker" />
-      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_lisp" />
-      <config projectName="restart" targetName="gmock_main" />
-      <config projectName="restart" targetName="m_opencv_test" />
-      <config projectName="restart" targetName="std_srvs_generate_messages_nodejs" />
-      <config projectName="restart" targetName="vicon_bridge_generate_messages_cpp" />
-      <config projectName="restart" targetName="run_tests" />
-      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_cpp" />
-      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_py" />
-      <config projectName="restart" targetName="restart_generate_messages_py" />
-      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_py" />
       <config projectName="restart" targetName="sensor_msgs_generate_messages_lisp" />
-      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_eus" />
-      <config projectName="restart" targetName="_restart_generate_messages_check_deps_AddTwoInts" />
-      <config projectName="restart" targetName="glhello" />
-      <config projectName="restart" targetName="std_msgs_generate_messages_lisp" />
-      <config projectName="restart" targetName="geometry_msgs_generate_messages_py" />
-      <config projectName="restart" targetName="restart_generate_messages" />
+      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_lisp" />
+      <config projectName="restart" targetName="restart_genlisp" />
+      <config projectName="restart" targetName="std_srvs_generate_messages_nodejs" />
+      <config projectName="restart" targetName="_restart_generate_messages_check_deps_pos_est" />
+      <config projectName="restart" targetName="talker" />
+      <config projectName="restart" targetName="add_two_ints_server" />
       <config projectName="restart" targetName="std_srvs_generate_messages_py" />
-      <config projectName="restart" targetName="sensor_msgs_generate_messages_eus" />
-      <config projectName="restart" targetName="download_extra_data" />
-      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_nodejs" />
-      <config projectName="restart" targetName="restart_geneus" />
-      <config projectName="restart" targetName="vicon_bridge_generate_messages_py" />
+      <config projectName="restart" targetName="secondMajor" />
       <config projectName="restart" targetName="geometry_msgs_generate_messages_nodejs" />
-      <config projectName="restart" targetName="std_msgs_generate_messages_eus" />
-      <config projectName="restart" targetName="vicon_bridge_gencfg" />
-      <config projectName="restart" targetName="std_msgs_generate_messages_py" />
+      <config projectName="restart" targetName="sensor_msgs_generate_messages_nodejs" />
+      <config projectName="restart" targetName="roscpp_generate_messages_lisp" />
       <config projectName="restart" targetName="formation_switch" />
-      <config projectName="restart" targetName="roscpp_generate_messages_nodejs" />
-      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_eus" />
-      <config projectName="restart" targetName="newhello" />
-      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_nodejs" />
-      <config projectName="restart" targetName="turtlebot_test" />
-      <config projectName="restart" targetName="count_server" />
+      <config projectName="restart" targetName="restart_generate_messages_lisp" />
+      <config projectName="restart" targetName="m_opencv_test" />
+      <config projectName="restart" targetName="std_srvs_generate_messages_cpp" />
+      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_py" />
       <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_cpp" />
-      <config projectName="restart" targetName="add_two_ints_client" />
+      <config projectName="restart" targetName="vicon_bridge_generate_messages_cpp" />
+      <config projectName="restart" targetName="std_msgs_generate_messages_cpp" />
+      <config projectName="restart" targetName="restart_gennodejs" />
+      <config projectName="restart" targetName="roscpp_generate_messages_eus" />
+      <config projectName="restart" targetName="swarm_commander" />
+      <config projectName="restart" targetName="clean_test_results" />
+      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_py" />
+      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_lisp" />
+      <config projectName="restart" targetName="roscpp_generate_messages_py" />
+      <config projectName="restart" targetName="turtlebot_test" />
+      <config projectName="restart" targetName="gtest" />
+      <config projectName="restart" targetName="geometry_msgs_generate_messages_cpp" />
+      <config projectName="restart" targetName="vicon_bridge_generate_messages_eus" />
+      <config projectName="restart" targetName="download_extra_data" />
+      <config projectName="restart" targetName="gmock_main" />
+      <config projectName="restart" targetName="doxygen" />
+      <config projectName="restart" targetName="newhello" />
+      <config projectName="restart" targetName="restart_genpy" />
+      <config projectName="restart" targetName="dynamic_reconfigure_generate_messages_eus" />
+      <config projectName="restart" targetName="run_tests" />
+      <config projectName="restart" targetName="restart_generate_messages" />
+      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_cpp" />
+      <config projectName="restart" targetName="std_msgs_generate_messages_eus" />
+      <config projectName="restart" targetName="restart_generate_messages_cpp" />
+      <config projectName="restart" targetName="dynamic_reconfigure_gencfg" />
+      <config projectName="restart" targetName="std_msgs_generate_messages_py" />
+      <config projectName="restart" targetName="std_msgs_generate_messages_nodejs" />
+      <config projectName="restart" targetName="sensor_msgs_generate_messages_eus" />
+      <config projectName="restart" targetName="count_server" />
+      <config projectName="restart" targetName="roscpp_generate_messages_nodejs" />
+      <config projectName="restart" targetName="geometry_msgs_generate_messages_py" />
+      <config projectName="restart" targetName="gmock" />
+      <config projectName="restart" targetName="geometry_msgs_generate_messages_eus" />
+      <config projectName="restart" targetName="_restart_generate_messages_check_deps_CountNumber" />
+      <config projectName="restart" targetName="std_srvs_generate_messages_eus" />
+      <config projectName="restart" targetName="restart_generate_messages_py" />
+      <config projectName="restart" targetName="sensor_msgs_generate_messages_cpp" />
+      <config projectName="restart" targetName="std_msgs_generate_messages_lisp" />
+      <config projectName="restart" targetName="_restart_generate_messages_check_deps_Num" />
+      <config projectName="restart" targetName="rosgraph_msgs_generate_messages_eus" />
+      <config projectName="restart" targetName="vicon_bridge_gencfg" />
+      <config projectName="restart" targetName="restart_generate_messages_eus" />
+      <config projectName="restart" targetName="sensor_msgs_generate_messages_py" />
+      <config projectName="restart" targetName="_restart_generate_messages_check_deps_AddTwoInts" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -92,7 +92,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2dd298bf-57d7-4c38-b421-cdbf640f9c6d" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/talker.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/talker.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/turtlebot_test.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/turtlebot_test.dir/progress.make" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/catkin_generated/setup_cached.sh" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/catkin_generated/setup_cached.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/restart.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/restart.cbp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/swarm_commander.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/swarm_commander.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -106,40 +117,89 @@
     <session id="-1014728854">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.0" value="1" />
-          <entry key="project.opened" value="1" />
+          <entry key="project.open.time.2" value="2" />
+          <entry key="project.opened" value="3" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="cpp" value="2" />
+          <entry key="cpp" value="10" />
+          <entry key="h" value="2" />
+          <entry key="srv" value="2" />
           <entry key="txt" value="1" />
+          <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="CMakeLists.txt" value="1" />
-          <entry key="ObjectiveC" value="2" />
+          <entry key="ObjectiveC" value="12" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="XML" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="txt" value="16" />
+          <entry key="cpp" value="616" />
+          <entry key="txt" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="CMakeLists.txt" value="16" />
+          <entry key="CMakeLists.txt" value="17" />
+          <entry key="ObjectiveC" value="616" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/yaml_test.cpp">
+        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="677">
+              <caret line="216" column="72" selection-start-line="216" selection-start-column="72" selection-end-line="216" selection-end-column="72" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/package.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="228">
+              <caret line="36" column="47" lean-forward="true" selection-start-line="36" selection-start-column="47" selection-end-line="36" selection-end-column="47" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/swarm_commander.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="406">
+              <caret line="74" column="35" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/srv/AddTwoInts.srv">
           <provider selected="true" editor-type-id="text-editor">
             <state>
+              <caret column="7" lean-forward="true" selection-start-column="7" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/add_two_ints_client.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="532">
+              <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
               <folding>
                 <element signature="e#0#22#0" expanded="true" />
               </folding>
@@ -147,25 +207,53 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/formation_switch.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="798">
-              <caret line="216" column="58" selection-start-line="216" selection-start-column="58" selection-end-line="216" selection-end-column="58" />
+            <state relative-caret-position="-41">
+              <caret line="28" column="19" lean-forward="true" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+              <folding>
+                <element signature="e#0#20#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/swarm_commander.cpp">
+        <entry file="file://$PROJECT_DIR$/src/add_two_ints_server.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="114">
+              <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+              <folding>
+                <element signature="e#0#22#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/../../devel/include/restart/AddTwoInts.h">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="133">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+              <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+              <folding>
+                <element signature="e#149#180#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>AddTwoInts</find>
+      <find>cv_bridge</find>
+      <find>drawRst</find>
+      <find>sequenceIsOk</find>
+      <find>formation_switch</find>
+      <find>x_world</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -174,6 +262,7 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/src/swarm_commander.cpp" />
       </list>
     </option>
   </component>
@@ -183,17 +272,18 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="200" />
+  <component name="ProjectFrameBounds" extendedState="4">
+    <option name="x" value="987" />
     <option name="y" value="24" />
-    <option name="width" value="993" />
-    <option name="height" value="1076" />
+    <option name="width" value="778" />
+    <option name="height" value="1056" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -206,11 +296,22 @@
               <item name="restart" type="47feb1d3:ProjectViewModuleNode" />
               <item name="restart" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="restart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="restart" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="restart" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="restart" type="b2602c69:ProjectViewProjectNode" />
+              <item name="restart" type="47feb1d3:ProjectViewModuleNode" />
+              <item name="restart" type="462c0819:PsiDirectoryNode" />
+              <item name="srv" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -591,6 +692,11 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="swarm_commander" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="restart" TARGET_NAME="swarm_commander" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="restart" RUN_TARGET_NAME="swarm_commander">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="talker" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="restart" TARGET_NAME="talker" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="restart" RUN_TARGET_NAME="talker">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -632,11 +738,6 @@
       </method>
     </configuration>
     <configuration name="vicon_bridge_generate_messages_py" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="restart" TARGET_NAME="vicon_bridge_generate_messages_py" CONFIG_NAME="Debug">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="yaml_test" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="restart" TARGET_NAME="yaml_test" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="restart" RUN_TARGET_NAME="yaml_test">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -710,6 +811,7 @@
       <item itemvalue="Application.std_srvs_generate_messages_lisp" />
       <item itemvalue="Application.std_srvs_generate_messages_nodejs" />
       <item itemvalue="Application.std_srvs_generate_messages_py" />
+      <item itemvalue="Application.swarm_commander" />
       <item itemvalue="Application.talker" />
       <item itemvalue="Application.tests" />
       <item itemvalue="Application.turtlebot_test" />
@@ -719,7 +821,6 @@
       <item itemvalue="Application.vicon_bridge_generate_messages_lisp" />
       <item itemvalue="Application.vicon_bridge_generate_messages_nodejs" />
       <item itemvalue="Application.vicon_bridge_generate_messages_py" />
-      <item itemvalue="Application.yaml_test" />
       <item itemvalue="Application.gmock" />
       <item itemvalue="Application.gmock_main" />
       <item itemvalue="Application.gtest" />
@@ -736,19 +837,21 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1553312102855</updated>
-      <workItem from="1553312104076" duration="648000" />
+      <workItem from="1553312104076" duration="1694000" />
+      <workItem from="1553327820106" duration="3990000" />
+      <workItem from="1553393314882" duration="10986000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="648000" />
+    <option name="totallyTimeSpent" value="16670000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
+    <frame x="987" y="24" width="778" height="1056" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.87825185" visible="true" weight="0.15444015" />
-      <window_info id="Structure" order="1" sideWeight="0.12174818" side_tool="true" visible="true" weight="0.15444015" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.8760776" visible="true" weight="0.0" />
+      <window_info id="Structure" order="1" sideWeight="0.123922415" side_tool="true" visible="true" weight="0.0" />
       <window_info id="Favorites" order="2" side_tool="true" weight="0.32991913" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" sideWeight="0.499375" weight="0.10175879" />
@@ -775,6 +878,19 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/src/count_server.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="779">
+          <caret line="41" column="13" lean-forward="true" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/srv/CountNumber.srv">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/count_client.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/yaml_test.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -784,17 +900,74 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/swarm_commander.cpp">
+    <entry file="file://$PROJECT_DIR$/package.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="36" column="47" lean-forward="true" selection-start-line="36" selection-start-column="47" selection-end-line="36" selection-end-column="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/srv/AddTwoInts.srv">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="7" lean-forward="true" selection-start-column="7" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../../devel/include/restart/AddTwoInts.h">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="133">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+          <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+          <folding>
+            <element signature="e#149#180#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/add_two_ints_server.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="6" column="28" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="798">
-          <caret line="216" column="58" selection-start-line="216" selection-start-column="58" selection-end-line="216" selection-end-column="58" />
+        <state relative-caret-position="677">
+          <caret line="216" column="72" selection-start-line="216" selection-start-column="72" selection-end-line="216" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/add_two_ints_client.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="28" column="13" selection-start-line="28" selection-start-column="13" selection-end-line="28" selection-end-column="13" />
+          <folding>
+            <element signature="e#0#22#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/formation_switch.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-41">
+          <caret line="28" column="19" lean-forward="true" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/swarm_commander.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="74" column="35" selection-start-line="74" selection-start-column="35" selection-end-line="74" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

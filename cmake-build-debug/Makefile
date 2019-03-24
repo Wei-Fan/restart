@@ -168,6 +168,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named swarm_commander
+
+# Build rule for target.
+swarm_commander: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 swarm_commander
+.PHONY : swarm_commander
+
+# fast build rule for target.
+swarm_commander/fast:
+	$(MAKE) -f CMakeFiles/swarm_commander.dir/build.make CMakeFiles/swarm_commander.dir/build
+.PHONY : swarm_commander/fast
+
+#=============================================================================
 # Target rules for targets named count_client
 
 # Build rule for target.
@@ -348,19 +361,6 @@ _restart_generate_messages_check_deps_CountNumber: cmake_check_build_system
 _restart_generate_messages_check_deps_CountNumber/fast:
 	$(MAKE) -f CMakeFiles/_restart_generate_messages_check_deps_CountNumber.dir/build.make CMakeFiles/_restart_generate_messages_check_deps_CountNumber.dir/build
 .PHONY : _restart_generate_messages_check_deps_CountNumber/fast
-
-#=============================================================================
-# Target rules for targets named yaml_test
-
-# Build rule for target.
-yaml_test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 yaml_test
-.PHONY : yaml_test
-
-# fast build rule for target.
-yaml_test/fast:
-	$(MAKE) -f CMakeFiles/yaml_test.dir/build.make CMakeFiles/yaml_test.dir/build
-.PHONY : yaml_test/fast
 
 #=============================================================================
 # Target rules for targets named restart_gencpp
@@ -1517,6 +1517,33 @@ src/secondMajor.cpp.s:
 	$(MAKE) -f CMakeFiles/secondMajor.dir/build.make CMakeFiles/secondMajor.dir/src/secondMajor.cpp.s
 .PHONY : src/secondMajor.cpp.s
 
+src/swarm_commander.o: src/swarm_commander.cpp.o
+
+.PHONY : src/swarm_commander.o
+
+# target to build an object file
+src/swarm_commander.cpp.o:
+	$(MAKE) -f CMakeFiles/swarm_commander.dir/build.make CMakeFiles/swarm_commander.dir/src/swarm_commander.cpp.o
+.PHONY : src/swarm_commander.cpp.o
+
+src/swarm_commander.i: src/swarm_commander.cpp.i
+
+.PHONY : src/swarm_commander.i
+
+# target to preprocess a source file
+src/swarm_commander.cpp.i:
+	$(MAKE) -f CMakeFiles/swarm_commander.dir/build.make CMakeFiles/swarm_commander.dir/src/swarm_commander.cpp.i
+.PHONY : src/swarm_commander.cpp.i
+
+src/swarm_commander.s: src/swarm_commander.cpp.s
+
+.PHONY : src/swarm_commander.s
+
+# target to generate assembly for a file
+src/swarm_commander.cpp.s:
+	$(MAKE) -f CMakeFiles/swarm_commander.dir/build.make CMakeFiles/swarm_commander.dir/src/swarm_commander.cpp.s
+.PHONY : src/swarm_commander.cpp.s
+
 src/talker.o: src/talker.cpp.o
 
 .PHONY : src/talker.o
@@ -1571,33 +1598,6 @@ src/turtlebot_test.cpp.s:
 	$(MAKE) -f CMakeFiles/turtlebot_test.dir/build.make CMakeFiles/turtlebot_test.dir/src/turtlebot_test.cpp.s
 .PHONY : src/turtlebot_test.cpp.s
 
-src/yaml_test.o: src/yaml_test.cpp.o
-
-.PHONY : src/yaml_test.o
-
-# target to build an object file
-src/yaml_test.cpp.o:
-	$(MAKE) -f CMakeFiles/yaml_test.dir/build.make CMakeFiles/yaml_test.dir/src/yaml_test.cpp.o
-.PHONY : src/yaml_test.cpp.o
-
-src/yaml_test.i: src/yaml_test.cpp.i
-
-.PHONY : src/yaml_test.i
-
-# target to preprocess a source file
-src/yaml_test.cpp.i:
-	$(MAKE) -f CMakeFiles/yaml_test.dir/build.make CMakeFiles/yaml_test.dir/src/yaml_test.cpp.i
-.PHONY : src/yaml_test.cpp.i
-
-src/yaml_test.s: src/yaml_test.cpp.s
-
-.PHONY : src/yaml_test.s
-
-# target to generate assembly for a file
-src/yaml_test.cpp.s:
-	$(MAKE) -f CMakeFiles/yaml_test.dir/build.make CMakeFiles/yaml_test.dir/src/yaml_test.cpp.s
-.PHONY : src/yaml_test.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1608,6 +1608,7 @@ help:
 	@echo "... install/local"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... swarm_commander"
 	@echo "... count_client"
 	@echo "... m_opencv_test"
 	@echo "... add_two_ints_server"
@@ -1622,7 +1623,6 @@ help:
 	@echo "... restart_generate_messages_py"
 	@echo "... _restart_generate_messages_check_deps_Num"
 	@echo "... _restart_generate_messages_check_deps_CountNumber"
-	@echo "... yaml_test"
 	@echo "... restart_gencpp"
 	@echo "... restart_generate_messages"
 	@echo "... dynamic_reconfigure_gencfg"
@@ -1725,15 +1725,15 @@ help:
 	@echo "... src/secondMajor.o"
 	@echo "... src/secondMajor.i"
 	@echo "... src/secondMajor.s"
+	@echo "... src/swarm_commander.o"
+	@echo "... src/swarm_commander.i"
+	@echo "... src/swarm_commander.s"
 	@echo "... src/talker.o"
 	@echo "... src/talker.i"
 	@echo "... src/talker.s"
 	@echo "... src/turtlebot_test.o"
 	@echo "... src/turtlebot_test.i"
 	@echo "... src/turtlebot_test.s"
-	@echo "... src/yaml_test.o"
-	@echo "... src/yaml_test.i"
-	@echo "... src/yaml_test.s"
 .PHONY : help
 
 
