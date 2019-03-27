@@ -21,26 +21,21 @@ using namespace std;
 using namespace cv;
 using namespace Eigen;
 
-int agent_num = 0;
-int target_num = 0;
-bool isAgentDone = false;
-vector<float> x_init;
-vector<float> y_init;
-vector<float> x_target;
-vector<float> y_target;
+int robot_number = 0;
+vector<int> x_init;
+vector<int> y_init;
 
 class SwarmCommander
 {
 private:
-    int robot_number;
-
     ros::NodeHandle global;
     ros::NodeHandle local;
 
     Mat board = Mat(Size(900,900), CV_8UC3, Scalar(0));
-    Mat assignment;
 
     Matrix<int,GRID_SIZE,GRID_SIZE> K;
+    vector<int> robot_grid_x;
+    vector<int> robot_grid_y;
 
 public:
     SwarmCommander(){
@@ -49,6 +44,7 @@ public:
         K.setZero(); //set zeros
 //        ROS_INFO("size of K : %s, %s", K.cols(), K.rows());
 //        K(1,3) = 1;
+
     }
 
     void run(){
@@ -58,6 +54,19 @@ public:
          * */
 //        ROS_INFO("debug 1");
         display_area();
+        
+        /*initialize robot positions by clicking (testing code)*/
+        namedWindow("monitor");
+        imshow("monitor",board);
+        setMouseCallback("monitor", onMouse, &board);
+        waitKey();
+        ROS_INFO("robot number : %d", x_init.size());
+        destroyWindow("monitor");
+        for (int i = 0; i < x_init.size(); ++i) {
+            robot_grid_x.push_back((int)((x_init[i] - 50)*GRID_SIZE/AREA_SIZE));
+            robot_grid_y.push_back((int)((y_init[i] - 50)*GRID_SIZE/AREA_SIZE));
+            ROS_INFO("robot : %d,%d",robot_grid_x[i],robot_grid_y[i]);
+        }
 
         /*
          * divide area
@@ -81,7 +90,7 @@ public:
 //        imshow("monitor", board);
 
         /*draw grids*/
-        ROS_INFO("debug 3");
+//        ROS_INFO("debug 3");
         int stepSize = (int)800/GRID_SIZE;
         for (int i = stepSize; i < AREA_SIZE; i += stepSize) {
             line(board, Point(50,50+i),Point(AREA_SIZE+50,50+i),Scalar(0,0,0));
@@ -90,7 +99,7 @@ public:
         for (int i = stepSize; i < AREA_SIZE; i += stepSize) {
             line(board, Point(50+i,50),Point(50+i,AREA_SIZE+50),Scalar(0,0,0));
         }
-        ROS_INFO("draw grids complete");
+//        ROS_INFO("draw grids complete");
 
         /*draw result*/
         for (int i = 0; i < GRID_SIZE; i += 1) { //cols
@@ -102,24 +111,22 @@ public:
                 rectangle(board, t1, t2, CV_RGB(0,0,255), -1);
             }
         }
-        ROS_INFO("draw K complete");
+//        ROS_INFO("draw K complete");
 
 
 //        ROS_INFO("debug 4");
 //        ROS_INFO("size of board : %d, %d", board.size().height, board.size().width);
         imshow("monitor", board);
-        setMouseCallback("monitor", onMouse, &board);
         waitKey();
-        printf("robot number : %d\n", agent_num);
 
-        destroyWindow("monitor");
+//        destroyWindow("monitor");
     }
 
     static void onMouse(int event, int x, int y, int, void* userInput)
     {
         if (event != EVENT_LBUTTONDOWN) return;
-        //printf("###########onMouse x : %d\n", x);
-        //printf("###########onMouse y : %d\n", y);
+//        printf("###########onMouse x : %d\n", x);
+//        printf("###########onMouse y : %d\n", y);
         int x_world = x - 500;
         int y_world = 500 - y;
         Mat *img = (Mat*)userInput;
@@ -128,7 +135,8 @@ public:
         imshow("monitor", *img);
         x_init.push_back(x);//x_world);
         y_init.push_back(y);//y_world);
-        agent_num++;
+        robot_number++;
+
 
     }
 
