@@ -20,9 +20,9 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/home/wade/catkin_ws/devel/include"
   "/opt/ros/kinetic/include"
   "/opt/ros/kinetic/share/xmlrpcpp/cmake/../../../include/xmlrpcpp"
+  ".././include"
   "/opt/ros/kinetic/include/opencv-3.3.1-dev"
   "/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv"
-  ".././include"
   )
 
 # Targets to which this target links.
