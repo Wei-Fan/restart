@@ -208,7 +208,41 @@ public:
             }
             // obtain the connected sets for every robot
 //            cout << isconnect(1,1,K,1,2) << endl;
-            stop = true;
+            vector<vector<Vector2i>> con_set;
+            vector<vector<Vector2i>> dcon_set;
+            for (int k = 0; k < robot_number; ++k) {
+                vector<Vector2i> con_t;
+                vector<Vector2i> dcon_t;
+                MatrixXi K_t = Kd.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
+                cout << K_t << endl;
+                for (int i = 0; i < CORE_SIZE; ++i) {
+                    for (int j = 0; j < CORE_SIZE; ++j) {
+                        if (K_t(j,i)!=1)
+                            continue;
+
+                        Vector2i c_t(j,i);
+                        if (isconnect(j,i,K_t,robot_grid_x[k],robot_grid_y[k]))
+                        {
+//                            ROS_INFO("con : %d,%d",j,i);
+                            con_t.push_back(c_t);
+                        } else {
+//                            ROS_INFO("dcon : %d,%d",j,i);
+                            dcon_t.push_back(c_t);
+                        }
+                    }
+                }
+                con_set.push_back(con_t);
+                dcon_set.push_back(dcon_t);
+            }
+
+            for (int k = 0; k < robot_number; ++k) {
+                vector<Vector2i> con_t = con_set[k];
+                vector<Vector2i> dcon_t = dcon_set[k];
+                if (con_t.size()==0||dcon_t.size()==0)
+                    C.block(k*CORE_SIZE,0,(k+1)*CORE_SIZE-1,CORE_SIZE-1).setZero();
+                // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+            }
+            stop = true; // debugging
         }
     }
 
@@ -228,14 +262,13 @@ public:
         while (!stop&&ros::ok())
         {
             /*see if the condition were met*/
-            Vector2i dir_i = robot - curr_p;
-//            cout << dir_i << endl;
-            double dir_l = sqrt((double)(dir_i.transpose()*dir_i));
+            Vector2i dir_i = robot-curr_p;
+            double dir_l = sqrt(dir_i(0)*dir_i(0)+dir_i(1)*dir_i(1));
 //            cout << dir_l << endl;
             if (dir_l<0.002)
             {
-                stop = true;
-                ROS_INFO("start at stop");
+//                cout << dir_i << endl;
+//                ROS_INFO("(%d,%d) -> (%d,%d) start at stop",j0,i0,ry,rx);
                 return true;
             }
 
@@ -244,7 +277,7 @@ public:
             dir_d[0] = dir_i[0] / dir_l;
             dir_d[1] = dir_i[1] / dir_l;
             double dir_cost[4];
-            int cost_i[4] = {1,2,3,4};
+            int cost_i[4] = {0,1,2,3};
             for (int t = 0; t < 4; ++t) {
                 dir_cost[t] = sqrt((coordinate(t,0)-dir_d[0])*(coordinate(t,0)-dir_d[0])+(coordinate(t,1)-dir_d[1])*(coordinate(t,1)-dir_d[1]));
             }
@@ -275,18 +308,18 @@ public:
             {
 //                cout << sd << endl;
                 Vector2i next_p = curr_p + sd;
-                if (next_p(0,0)==-1||next_p(0,0)==CORE_SIZE||next_p(1,0)==-1||next_p(1,0)==CORE_SIZE)
+                if (next_p(0)==-1||next_p(0)==CORE_SIZE||next_p(1)==-1||next_p(1)==CORE_SIZE)
                     continue;
 
-                if (K_t(next_p(0,0),next_p(1,0))==1)
+                if (K_t(next_p(0),next_p(1))==1)
                 {
                     curr_p = next_p;
                     move = true;
-                    if (sd(0,0)==1)
+                    if (sd(0)==1)
                         pace = 3;
-                    else if (sd(0,0)==-1)
+                    else if (sd(0)==-1)
                         pace = 1;
-                    else if (sd(1,0)==-1)
+                    else if (sd(1)==-1)
                         pace = 2;
                     else
                         pace = 0;
@@ -295,13 +328,11 @@ public:
             }
             if (!move)
             {
-                stop = true;
                 return false;
             } else {
                 count++;
                 if (count==CORE_SIZE*CORE_SIZE)
                 {
-                    stop = true;
                     return false;
                 }
             }
