@@ -41,6 +41,7 @@ private:
     Matrix<double,Dynamic,CORE_SIZE> C;
     VectorXi S; // record grid number for each robot
     vector<vector<Vector2i>> P; // record trajectory in the core map
+    vector<Matrix<int,CORE_SIZE,CORE_SIZE>> T; // record the minimal spanning tree for each robot
     VectorXd m;
     vector<int> robot_grid_x;
     vector<int> robot_grid_y;
@@ -94,6 +95,7 @@ public:
         /*
          * STC planning
          * */
+        generate_tree();
         path_planning();
 
     }
@@ -228,7 +230,7 @@ public:
                 }
             }
             // obtain the connected sets for every robot
-//            cout << isconnect(1,1,K,1,2) << endl;
+//            cout << isConnect(1,1,K,1,2) << endl;
             vector<vector<Vector2i>> con_set;
             vector<vector<Vector2i>> dcon_set;
             for (int k = 0; k < robot_number; ++k) {
@@ -242,7 +244,7 @@ public:
                             continue;
 
                         Vector2i c_t(j,i);
-                        if (isconnect(j,i,K_t,robot_grid_x[k],robot_grid_y[k]))
+                        if (isConnect(j,i,K_t,robot_grid_x[k],robot_grid_y[k]))
                         {
 //                            ROS_INFO("con : %d,%d",j,i);
                             con_t.push_back(c_t);
@@ -328,7 +330,7 @@ public:
         }
     }
 
-    bool isconnect(int j0, int i0, Matrix<int,CORE_SIZE,CORE_SIZE> K_t, int rx, int ry){
+    bool isConnect(int j0, int i0, Matrix<int,CORE_SIZE,CORE_SIZE> K_t, int rx, int ry){
         int pace = -1;
         Matrix<double,4,2> coordinate;
         coordinate << 0, -1,
@@ -431,7 +433,7 @@ public:
     }
 
 
-    void path_planning(){
+    void generate_tree(){
         /*prepare input*/
         // obtain the assignment matrix for every robot
         Matrix<int,Dynamic,CORE_SIZE> Kd;
@@ -463,6 +465,9 @@ public:
 
         /*main proccess*/
         for (int k = 0; k < robot_number; ++k) {
+
+//            cout << "robot "<< k << "'s path : "<< endl;//debugging
+
             /*neccessary preparation*/
             Vector2i start_p(robot_grid_y[k], robot_grid_x[k]);
             vector<Vector2i> P_t;
@@ -470,10 +475,10 @@ public:
 
             MatrixXi K_t = Kd.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
             int total_num = S(k);
-            Matrix<int,CORE_SIZE,CORE_SIZE> T;
+            Matrix<int,CORE_SIZE,CORE_SIZE> T_t;
             int num = 1;
-            T.setZero();
-            T(start_p(0),start_p(1)) = num;
+            T_t.setZero();
+            T_t(start_p(0),start_p(1)) = num;
             Vector2i curr_p(0,0);
 
             /*first move*/
@@ -483,10 +488,12 @@ public:
                     continue;
                 if (K_t(tem_p(0),tem_p(1))==1)
                 {
+//                    cout << tem_p << endl; //debugging
+
                     P_t.push_back(tem_p);
+                    T_t(tem_p(0),tem_p(1)) = T_t(start_p(0),start_p(1))+1;
                     curr_p = tem_p;
                     num++;
-                    T(tem_p(0),tem_p(1)) = num;
                     break;
                 }
             }
@@ -500,12 +507,14 @@ public:
                     Vector2i tem_p = curr_p + d;
                     if (tem_p(0)==-1||tem_p(0)==CORE_SIZE||tem_p(1)==-1||tem_p(1)==CORE_SIZE)
                         continue;
-                    if (K_t(tem_p(0),tem_p(1))==1 && T(tem_p(0),tem_p(1))==0)
+                    if (K_t(tem_p(0),tem_p(1))==1 && T_t(tem_p(0),tem_p(1))==0)
                     {
+//                        cout << tem_p << endl; //debugging
+
                         P_t.push_back(tem_p);
+                        T_t(tem_p(0),tem_p(1)) = T_t(curr_p(0),curr_p(1))+1;
                         curr_p = tem_p;
                         num++;
-                        T(tem_p(0),tem_p(1)) = num;
                         move = true;
                         break;
                     }
@@ -519,16 +528,25 @@ public:
                     Vector2i tem_p = curr_p + d;
                     if (tem_p(0)==-1||tem_p(0)==CORE_SIZE||tem_p(1)==-1||tem_p(1)==CORE_SIZE)
                         continue;
-                    if (K_t(tem_p(0),tem_p(1))==1 && T(tem_p(0),tem_p(1))==T(curr_p(0),curr_p(1))-1)
+                    if (K_t(tem_p(0),tem_p(1))==1 && T_t(tem_p(0),tem_p(1))==T_t(curr_p(0),curr_p(1))-1)
                     {
-                        P_t.push_back(tem_p);
+//                        cout << tem_p << endl; //debugging
+
+//                        P_t.push_back(tem_p);
                         curr_p = tem_p;
                         break;
                     }
                 }
             }
-
+            cout << "T : "<<endl<<T_t<<endl<<endl;
+            T.push_back(T_t);
             P.push_back(P_t);
+        }
+    }
+
+    void path_planning(){
+        for (int k = 0; k < robot_number; ++k) {
+            /*obtain minimal spanning tree's */
         }
     }
 };
