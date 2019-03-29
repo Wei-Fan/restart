@@ -39,7 +39,7 @@ private:
 //    Matrix<int,GRID_SIZE,GRID_SIZE> E; How to define a 3d matrix?
 //    MatrixXi E;
     Matrix<double,Dynamic,CORE_SIZE> C;
-    Matrix<double,Dynamic,1> m;
+    VectorXd m;
     vector<int> robot_grid_x;
     vector<int> robot_grid_y;
 
@@ -77,10 +77,8 @@ public:
 //        E = MatrixXi::Zero(robot_number*CORE_SIZE,CORE_SIZE);
         // To access : MatrixXi Ek = E.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
 //        ROS_INFO("debug 1");
-        C.resize(robot_number*CORE_SIZE,CORE_SIZE);
-        C.setOnes();
-        m.resize(robot_number,1);
-        m.setOnes(); //size : (robot_number,1)
+        C.setOnes(robot_number*CORE_SIZE,CORE_SIZE);
+        m.setOnes(robot_number); //size : (robot_number,1)
 
         /*
          * divide area
@@ -165,8 +163,8 @@ public:
         while (!stop&&ros::ok())
         {
             iteration_count++;
-            ArrayXi S = ArrayXi::Zero(robot_number); // record grid number for each robot
-//            ROS_INFO("S size : %d, %d and %d", S.rows(), S.cols(),S(2));
+            VectorXi S; // record grid number for each robot
+            S.setZero(robot_number); // size : (robot_number,1)
             int count = 0;
 
             /*check every grid*/
@@ -177,7 +175,7 @@ public:
                     for (int k = 0; k < robot_number; ++k) {
 //                        MatrixXi E_t = E.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
 //                        MatrixXi C_t = C.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
-                        double Ekji = C(j+k*CORE_SIZE,i) * m(k,0) * sqrt((i-robot_grid_x[k])*(i-robot_grid_x[k])+(j-robot_grid_y[k])*(j-robot_grid_y[k]));
+                        double Ekji = C(j+k*CORE_SIZE,i) * m(k) * sqrt((i-robot_grid_x[k])*(i-robot_grid_x[k])+(j-robot_grid_y[k])*(j-robot_grid_y[k]));
 //                        double E_t = ;
                         if (tmp < 0 || tmp > Ekji)
                         {
@@ -185,7 +183,7 @@ public:
                             K(j,i) = k;
                         }
                     }
-                    S(K(j,i),1)++;
+                    S(K(j,i))++;
                 }
             }
 //            cout << S <<  endl;
@@ -238,11 +236,70 @@ public:
             for (int k = 0; k < robot_number; ++k) {
                 vector<Vector2i> con_t = con_set[k];
                 vector<Vector2i> dcon_t = dcon_set[k];
-                if (con_t.size()==0||dcon_t.size()==0)
-                    C.block(k*CORE_SIZE,0,(k+1)*CORE_SIZE-1,CORE_SIZE-1).setZero();
-                // aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                MatrixXd C_t;
+                if (con_t.size()==0||dcon_t.size()==0){
+                    C_t.setOnes(CORE_SIZE,CORE_SIZE);
+                    C.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0) = C_t;
+                } else {
+                    for (int i = 0; i < CORE_SIZE; ++i) {
+                        for (int j = 0; j < CORE_SIZE; ++j) {
+                            double mdist_con = -1;
+                            double mdist_dcon = -1;
+                            for (int t = 0; t < con_t.size(); ++t) {
+                                double m_t = sqrt((con_t[t](0)-j)*(con_t[t](0)-j)+(con_t[t](1)-i)*(con_t[t](1)-i));
+                                if (mdist_con<0||mdist_con>m_t)
+                                    mdist_con = m_t;
+                            }
+                            for (int t = 0; t < dcon_t.size(); ++t) {
+                                double m_t = sqrt((dcon_t[t](0)-j)*(dcon_t[t](0)-j)+(dcon_t[t](1)-i)*(dcon_t[t](1)-i));
+                                if (mdist_dcon<0||mdist_dcon>m_t)
+                                    mdist_dcon = m_t;
+                            }
+
+                            if (mdist_con<0.002)
+                                C(k*CORE_SIZE+j,i) = 1;
+                            else if (mdist_dcon<0.002)
+                                C(k*CORE_SIZE+j,i) = 1.3;
+                            else
+                                C(k*CORE_SIZE+j,i) = 0.3*mdist_con/(mdist_con+mdist_dcon)+1;
+                        }
+                    }
+                }
             }
-            stop = true; // debugging
+
+            /*recalcuate S*/
+            for (int k = 0; k < robot_number; ++k) {
+                S(k) -= dcon_set[k].size();
+            }
+
+            /*update m*/
+            double threshold = CORE_SIZE*CORE_SIZE/30.0;
+            if (iteration_count>100)
+                threshold = threshold * (iteration_count/50.0)*(iteration_count/50.0);
+            for (int k = 0; k < robot_number; ++k) {
+                double dm = S(k) - CORE_SIZE*CORE_SIZE/robot_number;
+                if (dm>threshold || dm<(-1)*threshold)
+                    m(k) += 0.002*dm;
+                else
+                    count++;
+            }
+
+            /*stop condition check*/
+            bool stop1 = false;
+            if (count==robot_number)
+                stop1 = true;
+
+            bool stop2 = true;
+            for (int k = 0; k < robot_number; ++k) {
+                if (dcon_set[k].size()!=0)
+                {
+                    stop2 = false;
+                    break;
+                }
+            }
+
+            if ((stop1 && stop2) || iteration_count==300)
+                stop = true;
         }
     }
 
