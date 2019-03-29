@@ -478,7 +478,7 @@ public:
 
             /*first move*/
             for (auto d : direction){
-                Vector2i tem_p = curr_p + d;
+                Vector2i tem_p = start_p + d;
                 if (tem_p(0)==-1||tem_p(0)==CORE_SIZE||tem_p(1)==-1||tem_p(1)==CORE_SIZE)
                     continue;
                 if (K_t(tem_p(0),tem_p(1))==1)
