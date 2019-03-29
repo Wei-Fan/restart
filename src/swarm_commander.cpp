@@ -86,6 +86,8 @@ public:
 
 //        ROS_INFO("debug 2");
         divide_area();
+        cout << "K : " << endl << K << endl;
+        cout << "m : " << endl << m << endl;
 
         /*
          * STC planning
@@ -156,6 +158,26 @@ public:
 
     bool divide_area(){
         /*Generate the first matrix*/
+        VectorXi S; // record grid number for each robot
+        S.setZero(robot_number);
+        for (int i = 0; i < CORE_SIZE; ++i) {
+            for (int j = 0; j < CORE_SIZE; ++j) {
+                double tmp = -1;
+                for (int k = 0; k < robot_number; ++k) {
+//                        MatrixXi E_t = E.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
+//                        MatrixXi C_t = C.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
+                    double Ekji = C(j+k*CORE_SIZE,i) * m(k) * sqrt((i-robot_grid_x[k])*(i-robot_grid_x[k])+(j-robot_grid_y[k])*(j-robot_grid_y[k]));
+//                        double E_t = ;
+                    if (tmp < 0 || tmp > Ekji)
+                    {
+                        tmp = Ekji;
+                        K(j,i) = k;
+                    }
+                }
+                S(K(j,i))++;
+            }
+        }
+
 
         /*main loop*/
         bool stop = false;
@@ -163,7 +185,7 @@ public:
         while (!stop&&ros::ok())
         {
             iteration_count++;
-            VectorXi S; // record grid number for each robot
+
             S.setZero(robot_number); // size : (robot_number,1)
             int count = 0;
 
@@ -212,7 +234,7 @@ public:
                 vector<Vector2i> con_t;
                 vector<Vector2i> dcon_t;
                 MatrixXi K_t = Kd.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
-                cout << K_t << endl;
+//                cout << K_t << endl;
                 for (int i = 0; i < CORE_SIZE; ++i) {
                     for (int j = 0; j < CORE_SIZE; ++j) {
                         if (K_t(j,i)!=1)
@@ -298,8 +320,10 @@ public:
                 }
             }
 
-            if ((stop1 && stop2) || iteration_count==300)
+            if ((stop1 && stop2) || iteration_count==300){
+                cout << "S : /n" << endl << S << endl;
                 stop = true;
+            }
         }
     }
 
