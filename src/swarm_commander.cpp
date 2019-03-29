@@ -39,6 +39,8 @@ private:
 //    Matrix<int,GRID_SIZE,GRID_SIZE> E; How to define a 3d matrix?
 //    MatrixXi E;
     Matrix<double,Dynamic,CORE_SIZE> C;
+    VectorXi S; // record grid number for each robot
+    vector<vector<Vector2i>> P; // record trajectory in the core map
     VectorXd m;
     vector<int> robot_grid_x;
     vector<int> robot_grid_y;
@@ -92,7 +94,7 @@ public:
         /*
          * STC planning
          * */
-//        path_planning();
+        path_planning();
 
     }
 
@@ -158,7 +160,6 @@ public:
 
     bool divide_area(){
         /*Generate the first matrix*/
-        VectorXi S; // record grid number for each robot
         S.setZero(robot_number);
         for (int i = 0; i < CORE_SIZE; ++i) {
             for (int j = 0; j < CORE_SIZE; ++j) {
@@ -431,7 +432,104 @@ public:
 
 
     void path_planning(){
+        /*prepare input*/
+        // obtain the assignment matrix for every robot
+        Matrix<int,Dynamic,CORE_SIZE> Kd;
+        Kd.resize(robot_number*CORE_SIZE,CORE_SIZE);
+        for (int k = 0; k < robot_number; ++k) {
+            for (int i = 0; i < CORE_SIZE; ++i) {
+                for (int j = 0; j < CORE_SIZE; ++j) {
+                    if (K(j,i)==k)
+                        Kd(j+k*CORE_SIZE,i) = 1;
+                    else
+                        Kd(j+k*CORE_SIZE,i) = 0;
 
+                }
+            }
+        }
+
+        P.clear();
+
+        /*prepare output*/
+        vector<Vector2i> direction;
+        Vector2i dir_t(0,1);
+        direction.push_back(dir_t);
+        dir_t(0) = 1;dir_t(1) = 0;
+        direction.push_back(dir_t);
+        dir_t(0) = 0;dir_t(1) = -1;
+        direction.push_back(dir_t);
+        dir_t(0) = -1;dir_t(1) = 0;
+        direction.push_back(dir_t);
+
+        /*main proccess*/
+        for (int k = 0; k < robot_number; ++k) {
+            /*neccessary preparation*/
+            Vector2i start_p(robot_grid_y[k], robot_grid_x[k]);
+            vector<Vector2i> P_t;
+            P_t.push_back(start_p);
+
+            MatrixXi K_t = Kd.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
+            int total_num = S(k);
+            Matrix<int,CORE_SIZE,CORE_SIZE> T;
+            int num = 1;
+            T.setZero();
+            T(start_p(0),start_p(1)) = num;
+            Vector2i curr_p(0,0);
+
+            /*first move*/
+            for (auto d : direction){
+                Vector2i tem_p = curr_p + d;
+                if (tem_p(0)==-1||tem_p(0)==CORE_SIZE||tem_p(1)==-1||tem_p(1)==CORE_SIZE)
+                    continue;
+                if (K_t(tem_p(0),tem_p(1))==1)
+                {
+                    P_t.push_back(tem_p);
+                    curr_p = tem_p;
+                    num++;
+                    T(tem_p(0),tem_p(1)) = num;
+                    break;
+                }
+            }
+
+            /*auto generate*/
+            while (num!=total_num&&ros::ok())
+            {
+                /*move to free space*/
+                bool move = false;
+                for (auto d : direction){
+                    Vector2i tem_p = curr_p + d;
+                    if (tem_p(0)==-1||tem_p(0)==CORE_SIZE||tem_p(1)==-1||tem_p(1)==CORE_SIZE)
+                        continue;
+                    if (K_t(tem_p(0),tem_p(1))==1 && T(tem_p(0),tem_p(1))==0)
+                    {
+                        P_t.push_back(tem_p);
+                        curr_p = tem_p;
+                        num++;
+                        T(tem_p(0),tem_p(1)) = num;
+                        move = true;
+                        break;
+                    }
+                }
+
+                /*back to an old cell*/
+                if (move)
+                    continue;
+
+                for (auto d : direction){
+                    Vector2i tem_p = curr_p + d;
+                    if (tem_p(0)==-1||tem_p(0)==CORE_SIZE||tem_p(1)==-1||tem_p(1)==CORE_SIZE)
+                        continue;
+                    if (K_t(tem_p(0),tem_p(1))==1 && T(tem_p(0),tem_p(1))==T(curr_p(0),curr_p(1))-1)
+                    {
+                        P_t.push_back(tem_p);
+                        curr_p = tem_p;
+                        break;
+                    }
+                }
+            }
+
+            P.push_back(P_t);
+        }
     }
 };
 
