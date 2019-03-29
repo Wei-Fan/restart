@@ -131,14 +131,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="cpp" value="8974" />
+          <entry key="cpp" value="10737" />
           <entry key="txt" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="CMakeLists.txt" value="17" />
-          <entry key="ObjectiveC" value="8974" />
+          <entry key="ObjectiveC" value="10737" />
         </counts>
       </usages-collector>
     </session>
@@ -166,12 +166,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/swarm_commander.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="672">
-              <caret line="493" column="67" selection-start-line="493" selection-start-column="67" selection-end-line="493" selection-end-column="67" />
+            <state relative-caret-position="249">
+              <caret line="551" column="66" selection-start-line="551" selection-start-column="66" selection-end-line="551" selection-end-column="66" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
                 <element signature="e#2611#4042#0" />
-                <element signature="e#4048#4578#0" />
                 <element signature="e#4584#11462#0" />
                 <element signature="e#11468#14595#0" />
                 <element signature="e#14601#14731#0" />
@@ -241,7 +240,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>cv_bridge</find>
       <find>drawRst</find>
       <find>sequenceIsOk</find>
       <find>x_world</find>
@@ -271,6 +269,7 @@
       <find>robot_number</find>
       <find>robot_grid_x</find>
       <find>isconnect</find>
+      <find>robot_grid`_y</find>
     </findStrings>
     <replaceStrings>
       <replace>background</replace>
@@ -280,6 +279,8 @@
       <replace>GRID_SIZE</replace>
       <replace>AREA_SIZE</replace>
       <replace>isConnect</replace>
+      <replace>robot_core_x</replace>
+      <replace>robot_core_y</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -878,12 +879,12 @@
       <workItem from="1553774125617" duration="3935000" />
       <workItem from="1553823525615" duration="2099000" />
       <workItem from="1553841490342" duration="1578000" />
-      <workItem from="1553844257901" duration="8062000" />
+      <workItem from="1553844257901" duration="14298000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="69863000" />
+    <option name="totallyTimeSpent" value="76099000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="822" y="24" width="1098" height="1056" extended-state="4" />
@@ -1017,12 +1018,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/swarm_commander.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="672">
-          <caret line="493" column="67" selection-start-line="493" selection-start-column="67" selection-end-line="493" selection-end-column="67" />
+        <state relative-caret-position="249">
+          <caret line="551" column="66" selection-start-line="551" selection-start-column="66" selection-end-line="551" selection-end-column="66" />
           <folding>
             <element signature="e#0#20#0" expanded="true" />
             <element signature="e#2611#4042#0" />
-            <element signature="e#4048#4578#0" />
             <element signature="e#4584#11462#0" />
             <element signature="e#11468#14595#0" />
             <element signature="e#14601#14731#0" />

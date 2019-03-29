@@ -41,8 +41,11 @@ private:
     Matrix<double,Dynamic,CORE_SIZE> C;
     VectorXi S; // record grid number for each robot
     vector<vector<Vector2i>> P; // record trajectory in the core map
+    vector<vector<Vector2i>> P_grid; // planning result
     vector<Matrix<int,CORE_SIZE,CORE_SIZE>> T; // record the minimal spanning tree for each robot
     VectorXd m;
+    vector<int> robot_core_x;
+    vector<int> robot_core_y;
     vector<int> robot_grid_x;
     vector<int> robot_grid_y;
 
@@ -71,9 +74,11 @@ public:
         ROS_INFO("robot number : %d", robot_number);
         destroyWindow("monitor");
         for (int i = 0; i < x_init.size(); ++i) {
-            robot_grid_x.push_back((x_init[i] - 50)*CORE_SIZE/AREA_SIZE);
-            robot_grid_y.push_back((y_init[i] - 50)*CORE_SIZE/AREA_SIZE);
-            ROS_INFO("robot : %d,%d",robot_grid_x[i],robot_grid_y[i]);
+            robot_core_x.push_back((x_init[i] - 50)*CORE_SIZE/AREA_SIZE);
+            robot_core_y.push_back((y_init[i] - 50)*CORE_SIZE/AREA_SIZE);
+            robot_grid_x.push_back((x_init[i] - 50)*GRID_SIZE/AREA_SIZE);
+            robot_grid_y.push_back((y_init[i] - 50)*GRID_SIZE/AREA_SIZE);
+            ROS_INFO("robot : %d,%d",robot_core_x[i],robot_core_y[i]);
         }
 
         /*these codes need to be moved if the robot number comes from elsewhere*/
@@ -169,7 +174,7 @@ public:
                 for (int k = 0; k < robot_number; ++k) {
 //                        MatrixXi E_t = E.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
 //                        MatrixXi C_t = C.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
-                    double Ekji = C(j+k*CORE_SIZE,i) * m(k) * sqrt((i-robot_grid_x[k])*(i-robot_grid_x[k])+(j-robot_grid_y[k])*(j-robot_grid_y[k]));
+                    double Ekji = C(j+k*CORE_SIZE,i) * m(k) * sqrt((i-robot_core_x[k])*(i-robot_core_x[k])+(j-robot_core_y[k])*(j-robot_core_y[k]));
 //                        double E_t = ;
                     if (tmp < 0 || tmp > Ekji)
                     {
@@ -200,7 +205,7 @@ public:
                     for (int k = 0; k < robot_number; ++k) {
 //                        MatrixXi E_t = E.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
 //                        MatrixXi C_t = C.block<CORE_SIZE,CORE_SIZE>(k*CORE_SIZE,0);
-                        double Ekji = C(j+k*CORE_SIZE,i) * m(k) * sqrt((i-robot_grid_x[k])*(i-robot_grid_x[k])+(j-robot_grid_y[k])*(j-robot_grid_y[k]));
+                        double Ekji = C(j+k*CORE_SIZE,i) * m(k) * sqrt((i-robot_core_x[k])*(i-robot_core_x[k])+(j-robot_core_y[k])*(j-robot_core_y[k]));
 //                        double E_t = ;
                         if (tmp < 0 || tmp > Ekji)
                         {
@@ -244,7 +249,7 @@ public:
                             continue;
 
                         Vector2i c_t(j,i);
-                        if (isConnect(j,i,K_t,robot_grid_x[k],robot_grid_y[k]))
+                        if (isConnect(j,i,K_t,robot_core_x[k],robot_core_y[k]))
                         {
 //                            ROS_INFO("con : %d,%d",j,i);
                             con_t.push_back(c_t);
@@ -469,7 +474,7 @@ public:
 //            cout << "robot "<< k << "'s path : "<< endl;//debugging
 
             /*neccessary preparation*/
-            Vector2i start_p(robot_grid_y[k], robot_grid_x[k]);
+            Vector2i start_p(robot_core_y[k], robot_core_x[k]);
             vector<Vector2i> P_t;
             P_t.push_back(start_p);
 
@@ -544,10 +549,142 @@ public:
         }
     }
 
-    void path_planning(){
+    void path_planning(){ //why???????????????????????????????????
         for (int k = 0; k < robot_number; ++k) {
-            /*obtain minimal spanning tree's */
+            /*clockwise planning method*/
+            Matrix<int,CORE_SIZE,CORE_SIZE> T_t = T[k]; // load spanning tree
+            vector<Vector2i> P_t = P[k]; // load spanning tree
+            vector<Vector2i> P_grid_t;
+
+            Vector2i curr_core = P_t[0];
+//            int curr_num = T_t(curr_core(0),curr_core(1));
+
+            Vector2i curr_grid(robot_grid_y[k],robot_grid_x[k]);
+            P_grid_t.push_back(curr_grid);
+            bool stop = false;
+            while (!stop&&ros::ok()) {
+                Vector2i next_grid;
+                int grid_where = where_am_I(curr_grid);
+                /*cross or not? cross: move to next core; not cross: continue*/
+                bool cross = false;
+                switch(grid_where){
+                    case 1 : {
+                        if (curr_core(0)+1 == CORE_SIZE) {
+                            cross = false;
+                            break;
+                        }
+                        int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0)+1, curr_core(1));
+                        if (abs(in_t) == 1) {
+                            cross = true;
+                        }
+                        break;
+                    }
+                    case 2 : {
+                        if (curr_core(1)+1 == CORE_SIZE) {
+                            cross = false;
+                            break;
+                        }
+                        int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0), curr_core(1)+1);
+                        if (abs(in_t) == 1) {
+                            cross = true;
+                        }
+                        break;
+                    }
+                    case 3 : {
+                        if (curr_core(0)-1 == -1) {
+                            cross = false;
+                            break;
+                        }
+                        int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0)-1, curr_core(1));
+                        if (abs(in_t) == 1) {
+                            cross = true;
+                        }
+                        break;
+                    }
+                    case 4 : {
+                        if (curr_core(1)-1 == CORE_SIZE) {
+                            cross = false;
+                            break;
+                        }
+                        int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0), curr_core(1)-1);
+                        if (abs(in_t) == 1) {
+                            cross = true;
+                        }
+                        break;
+                    }
+                }
+
+                if (!cross) {
+                    next_grid = move_to_next_grid(curr_grid);
+                    curr_grid = next_grid;
+                } else {
+                    next_grid = move_to_next_core(curr_grid);
+                    curr_grid = next_grid;
+                    curr_core = move_to_next_core(curr_core);
+                }
+
+                P_grid_t.push_back(curr_grid);
+
+                /*complete condition*/
+                if (next_grid(0)==robot_grid_y[k]&&next_grid(1)==robot_grid_x[k])
+                    stop = true;
+            }
+
+            P_grid.push_back(P_grid_t);
+
         }
+    }
+
+    int where_am_I(Vector2i curr){
+        if (curr(0)%2==0){
+            if (curr(1)%2==0){
+                return 1;
+            } else {
+                return 4;
+            }
+        } else {
+            if (curr(1)%2==0){
+                return 2;
+            } else {
+                return 3;
+            }
+        }
+    }
+
+    Vector2i move_to_next_grid(Vector2i curr){
+        Vector2i next = curr;
+        if (curr(0)%2==0){
+            if (curr(1)%2==0){
+                next(0)+=1;
+            } else {
+                next(1)-=1;
+            }
+        } else {
+            if (curr(1)%2==0){
+                next(1)+=1;
+            } else {
+                next(0)-=1;
+            }
+        }
+        return next;
+    }
+
+    Vector2i move_to_next_core(Vector2i curr){
+        Vector2i next = curr;
+        if (curr(0)%2==0){
+            if (curr(1)%2==0){
+                next(1)-=1;
+            } else {
+                next(0)-=1;
+            }
+        } else {
+            if (curr(1)%2==0){
+                next(0)+=1;
+            } else {
+                next(1)+=1;
+            }
+        }
+        return next;
     }
 };
 
