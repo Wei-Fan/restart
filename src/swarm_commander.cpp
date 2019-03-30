@@ -543,7 +543,7 @@ public:
                     }
                 }
             }
-            cout << "T : "<<endl<<T_t<<endl<<endl;
+//            cout << "T : "<<endl<<T_t<<endl<<endl;
             T.push_back(T_t);
             P.push_back(P_t);
         }
@@ -553,6 +553,8 @@ public:
         for (int k = 0; k < robot_number; ++k) {
             /*clockwise planning method*/
             Matrix<int,CORE_SIZE,CORE_SIZE> T_t = T[k]; // load spanning tree
+
+            cout << "T"<<k<<" : "<<endl<<T_t<<endl<<endl;
             vector<Vector2i> P_t = P[k]; // load spanning tree
             vector<Vector2i> P_grid_t;
 
@@ -561,14 +563,31 @@ public:
 
             Vector2i curr_grid(robot_grid_y[k],robot_grid_x[k]);
             P_grid_t.push_back(curr_grid);
-            bool stop = false;
+
+//            cout << "curr_core : "<< curr_core << endl << "curr_grid : " << curr_grid << endl;
+
+            bool stop = false;//false
+//            int count_loop = 0;
             while (!stop&&ros::ok()) {
+//                count_loop++;
                 Vector2i next_grid;
                 int grid_where = where_am_I(curr_grid);
                 /*cross or not? cross: move to next core; not cross: continue*/
                 bool cross = false;
                 switch(grid_where){
                     case 1 : {
+                        if (curr_core(1)-1 == -1) {
+                            cross = false;
+                            break;
+                        }
+                        int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0), curr_core(1)-1);
+                        if (abs(in_t) == 1) {
+                            cross = true;
+                            curr_core(1) -= 1;
+                        }
+                        break;
+                    }
+                    case 2 : {
                         if (curr_core(0)+1 == CORE_SIZE) {
                             cross = false;
                             break;
@@ -576,10 +595,11 @@ public:
                         int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0)+1, curr_core(1));
                         if (abs(in_t) == 1) {
                             cross = true;
+                            curr_core(0) += 1;
                         }
                         break;
                     }
-                    case 2 : {
+                    case 3 : {
                         if (curr_core(1)+1 == CORE_SIZE) {
                             cross = false;
                             break;
@@ -587,10 +607,11 @@ public:
                         int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0), curr_core(1)+1);
                         if (abs(in_t) == 1) {
                             cross = true;
+                            curr_core(1) += 1;
                         }
                         break;
                     }
-                    case 3 : {
+                    case 4 : {
                         if (curr_core(0)-1 == -1) {
                             cross = false;
                             break;
@@ -598,17 +619,7 @@ public:
                         int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0)-1, curr_core(1));
                         if (abs(in_t) == 1) {
                             cross = true;
-                        }
-                        break;
-                    }
-                    case 4 : {
-                        if (curr_core(1)-1 == CORE_SIZE) {
-                            cross = false;
-                            break;
-                        }
-                        int in_t = T_t(curr_core(0), curr_core(1)) - T_t(curr_core(0), curr_core(1)-1);
-                        if (abs(in_t) == 1) {
-                            cross = true;
+                            curr_core(0) -= 1;
                         }
                         break;
                     }
@@ -620,7 +631,6 @@ public:
                 } else {
                     next_grid = move_to_next_core(curr_grid);
                     curr_grid = next_grid;
-                    curr_core = move_to_next_core(curr_core);
                 }
 
                 P_grid_t.push_back(curr_grid);
@@ -628,10 +638,17 @@ public:
                 /*complete condition*/
                 if (next_grid(0)==robot_grid_y[k]&&next_grid(1)==robot_grid_x[k])
                     stop = true;
+//                if (P_grid_t.size()==4*S(k))
+//                {
+//                    stop = true;
+//                }
+
+            cout << "curr_core : "<< curr_core(0) << "," << curr_core(1) << " ---- curr_grid : " << curr_grid(0) << "," << curr_grid(1) << endl;
+
+//                ROS_INFO("count : %d",count_loop);
             }
 
             P_grid.push_back(P_grid_t);
-
         }
     }
 
