@@ -168,6 +168,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named csv_test
+
+# Build rule for target.
+csv_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 csv_test
+.PHONY : csv_test
+
+# fast build rule for target.
+csv_test/fast:
+	$(MAKE) -f CMakeFiles/csv_test.dir/build.make CMakeFiles/csv_test.dir/build
+.PHONY : csv_test/fast
+
+#=============================================================================
 # Target rules for targets named swarm_commander
 
 # Build rule for target.
@@ -1328,6 +1341,33 @@ src/count_server.cpp.s:
 	$(MAKE) -f CMakeFiles/count_server.dir/build.make CMakeFiles/count_server.dir/src/count_server.cpp.s
 .PHONY : src/count_server.cpp.s
 
+src/csv_test.o: src/csv_test.cpp.o
+
+.PHONY : src/csv_test.o
+
+# target to build an object file
+src/csv_test.cpp.o:
+	$(MAKE) -f CMakeFiles/csv_test.dir/build.make CMakeFiles/csv_test.dir/src/csv_test.cpp.o
+.PHONY : src/csv_test.cpp.o
+
+src/csv_test.i: src/csv_test.cpp.i
+
+.PHONY : src/csv_test.i
+
+# target to preprocess a source file
+src/csv_test.cpp.i:
+	$(MAKE) -f CMakeFiles/csv_test.dir/build.make CMakeFiles/csv_test.dir/src/csv_test.cpp.i
+.PHONY : src/csv_test.cpp.i
+
+src/csv_test.s: src/csv_test.cpp.s
+
+.PHONY : src/csv_test.s
+
+# target to generate assembly for a file
+src/csv_test.cpp.s:
+	$(MAKE) -f CMakeFiles/csv_test.dir/build.make CMakeFiles/csv_test.dir/src/csv_test.cpp.s
+.PHONY : src/csv_test.cpp.s
+
 src/find_test.o: src/find_test.cpp.o
 
 .PHONY : src/find_test.o
@@ -1608,6 +1648,7 @@ help:
 	@echo "... install/local"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... csv_test"
 	@echo "... swarm_commander"
 	@echo "... count_client"
 	@echo "... m_opencv_test"
@@ -1704,6 +1745,9 @@ help:
 	@echo "... src/count_server.o"
 	@echo "... src/count_server.i"
 	@echo "... src/count_server.s"
+	@echo "... src/csv_test.o"
+	@echo "... src/csv_test.i"
+	@echo "... src/csv_test.s"
 	@echo "... src/find_test.o"
 	@echo "... src/find_test.i"
 	@echo "... src/find_test.s"

@@ -182,6 +182,7 @@ add_executable(count_server src/count_server.cpp)
 add_executable(count_client src/count_client.cpp)
 #add_executable(yaml_test src/yaml_test.cpp)#not right now
 add_executable(swarm_commander src/swarm_commander.cpp)
+add_executable(csv_test src/csv_test.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -215,6 +216,7 @@ target_link_libraries(glhello ${catkin_LIBRARIES})
 target_link_libraries(count_server ${catkin_LIBRARIES})
 target_link_libraries(count_client ${catkin_LIBRARIES})
 target_link_libraries(swarm_commander ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(csv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 #target_link_libraries(yaml_test ${catkin_LIBRARIES}) #not right now
 
 #############
