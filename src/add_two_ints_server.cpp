@@ -4,9 +4,10 @@
 bool add(restart::AddTwoInts::Request  &req,  
          restart::AddTwoInts::Response &res)  
 {  
-  res.sum = req.a + req.b;  
-  ROS_INFO("request: x=%ld, y=%ld", (long int)req.a, (long int)req.b);  
-  ROS_INFO("sending back response: [%ld]", (long int)res.sum);  
+  res.sum.push_back(req.a[0] + req.b[0]); 
+  res.sum.push_back(req.a[1] + req.b[1]);   
+  ROS_INFO("request: x1=%ld, x2=%ld, y1=%ld, y2=%ld", (long int)req.a[0], (long int)req.a[1], (long int)req.b[0], (long int)req.b[1]);  
+  ROS_INFO("sending back response: [%ld, %ld]", (long int)res.sum[0], (long int)res.sum[1]);  
   return true;  
 }  
   
