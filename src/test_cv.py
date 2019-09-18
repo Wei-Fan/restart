@@ -47,28 +47,31 @@ def loadCameraCalibration():
 	#print dist_coefs.shape
 	
 def getAffineTransform(coord1, coord2):
-        """
-        Given 2 sets of corresponding coordinates,
-        find the affine matrix transform between them.
+		"""
+		Given 2 sets of corresponding coordinates,
+		find the affine matrix transform between them.
 
-        TODO: Rewrite this function to take in an arbitrary number of coordinates and
-        find the transform without using cv2 functions
-        """
-        num = coord1.size/2
-        affine_array = np.zeros((6,1),np.float32)
-        A = []
-        for x in xrange(num):
-        	A = np.append(A,[coord1[x],1,0,0,0,0,0,0,coord1[x],1])
-
-        A.reshape(2*num,6)
-
+		TODO: Rewrite this function to take in an arbitrary number of coordinates and
+		find the transform without using cv2 functions
+		"""
+		num = coord1.size/2
+		# print num
+		# affine_array = np.zeros((6,1),np.float32)
+		A = []
+		for x in xrange(num):
+			A = np.append(A,[coord1[x][0],coord1[x][1],1,0,0,0,0,0,0,coord1[x][0],coord1[x][1],1])
+		A = A.reshape(2*num,6)
+		A_p_inv = np.linalg.inv(np.matmul(np.transpose(A),A))
+		aff = np.matmul(np.matmul(A_p_inv,np.transpose(A)),np.transpose(coord2.ravel()))
+		aff = aff.reshape(2,3)
+		return aff
 """main function"""
 if __name__ == '__main__':
 	#writeConfg()
     #loadCameraCalibration()
     #print np.zeros((5,2),int)
-    coord1 = np.array([[50,50],[200,50],[50,200],[7,8]],int)
-    coord2 = np.array([[10,100],[200,50],[100,250],[7,8]],int)
+    coord1 = np.array([[50,50],[200,50],[50,200],[20,100]],int)
+    coord2 = np.array([[10,100],[200,50],[100,250],[150,200]],int)
     #print coord1[0:3].astype(np.float32)
     #print coord2[0:3].astype(np.float32)
     #pts1 = coord1[0:3].astype(np.float32)
@@ -80,10 +83,17 @@ if __name__ == '__main__':
     #m = m.reshape(3,3)
     #print m
     #print np.matmul(m,np.transpose([50,50,1]))
-    num = coord1.size/2
-    A = []
-    for x in xrange(num):
-    	A = np.append(A,[coord1[x][0],coord1[x][1],1,0,0,0,0,0,0,coord1[x][0],coord1[x][1],1])
+    # num = coord1.size/2
+    # A = []
+    # for x in xrange(num):
+    # 	A = np.append(A,[coord1[x][0],coord1[x][1],1,0,0,0,0,0,0,coord1[x][0],coord1[x][1],1])
+    # A = A.reshape(2*num,6)
+    # print A
+    # A_t = np.linalg.inv(np.matmul(np.transpose(A),A))
+    # aff = np.matmul(np.matmul(A_t,np.transpose(A)),np.transpose(coord2.ravel()))
+    # aff = aff.reshape(2,3)
+    # print aff
+    affine = getAffineTransform(coord1,coord2)
+    print affine
 
-    A = A.reshape(2*num,6)
-    print A
+
