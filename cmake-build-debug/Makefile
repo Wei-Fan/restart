@@ -168,6 +168,32 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named zlgorithm_test
+
+# Build rule for target.
+zlgorithm_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 zlgorithm_test
+.PHONY : zlgorithm_test
+
+# fast build rule for target.
+zlgorithm_test/fast:
+	$(MAKE) -f CMakeFiles/zlgorithm_test.dir/build.make CMakeFiles/zlgorithm_test.dir/build
+.PHONY : zlgorithm_test/fast
+
+#=============================================================================
+# Target rules for targets named data_structure
+
+# Build rule for target.
+data_structure: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 data_structure
+.PHONY : data_structure
+
+# fast build rule for target.
+data_structure/fast:
+	$(MAKE) -f CMakeFiles/data_structure.dir/build.make CMakeFiles/data_structure.dir/build
+.PHONY : data_structure/fast
+
+#=============================================================================
 # Target rules for targets named csv_test
 
 # Build rule for target.
@@ -179,6 +205,19 @@ csv_test: cmake_check_build_system
 csv_test/fast:
 	$(MAKE) -f CMakeFiles/csv_test.dir/build.make CMakeFiles/csv_test.dir/build
 .PHONY : csv_test/fast
+
+#=============================================================================
+# Target rules for targets named play_back
+
+# Build rule for target.
+play_back: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 play_back
+.PHONY : play_back
+
+# fast build rule for target.
+play_back/fast:
+	$(MAKE) -f CMakeFiles/play_back.dir/build.make CMakeFiles/play_back.dir/build
+.PHONY : play_back/fast
 
 #=============================================================================
 # Target rules for targets named swarm_commander
@@ -1368,6 +1407,33 @@ src/csv_test.cpp.s:
 	$(MAKE) -f CMakeFiles/csv_test.dir/build.make CMakeFiles/csv_test.dir/src/csv_test.cpp.s
 .PHONY : src/csv_test.cpp.s
 
+src/data_structure.o: src/data_structure.cpp.o
+
+.PHONY : src/data_structure.o
+
+# target to build an object file
+src/data_structure.cpp.o:
+	$(MAKE) -f CMakeFiles/data_structure.dir/build.make CMakeFiles/data_structure.dir/src/data_structure.cpp.o
+.PHONY : src/data_structure.cpp.o
+
+src/data_structure.i: src/data_structure.cpp.i
+
+.PHONY : src/data_structure.i
+
+# target to preprocess a source file
+src/data_structure.cpp.i:
+	$(MAKE) -f CMakeFiles/data_structure.dir/build.make CMakeFiles/data_structure.dir/src/data_structure.cpp.i
+.PHONY : src/data_structure.cpp.i
+
+src/data_structure.s: src/data_structure.cpp.s
+
+.PHONY : src/data_structure.s
+
+# target to generate assembly for a file
+src/data_structure.cpp.s:
+	$(MAKE) -f CMakeFiles/data_structure.dir/build.make CMakeFiles/data_structure.dir/src/data_structure.cpp.s
+.PHONY : src/data_structure.cpp.s
+
 src/find_test.o: src/find_test.cpp.o
 
 .PHONY : src/find_test.o
@@ -1530,6 +1596,33 @@ src/newhello.cpp.s:
 	$(MAKE) -f CMakeFiles/newhello.dir/build.make CMakeFiles/newhello.dir/src/newhello.cpp.s
 .PHONY : src/newhello.cpp.s
 
+src/play_back.o: src/play_back.cpp.o
+
+.PHONY : src/play_back.o
+
+# target to build an object file
+src/play_back.cpp.o:
+	$(MAKE) -f CMakeFiles/play_back.dir/build.make CMakeFiles/play_back.dir/src/play_back.cpp.o
+.PHONY : src/play_back.cpp.o
+
+src/play_back.i: src/play_back.cpp.i
+
+.PHONY : src/play_back.i
+
+# target to preprocess a source file
+src/play_back.cpp.i:
+	$(MAKE) -f CMakeFiles/play_back.dir/build.make CMakeFiles/play_back.dir/src/play_back.cpp.i
+.PHONY : src/play_back.cpp.i
+
+src/play_back.s: src/play_back.cpp.s
+
+.PHONY : src/play_back.s
+
+# target to generate assembly for a file
+src/play_back.cpp.s:
+	$(MAKE) -f CMakeFiles/play_back.dir/build.make CMakeFiles/play_back.dir/src/play_back.cpp.s
+.PHONY : src/play_back.cpp.s
+
 src/secondMajor.o: src/secondMajor.cpp.o
 
 .PHONY : src/secondMajor.o
@@ -1638,6 +1731,33 @@ src/turtlebot_test.cpp.s:
 	$(MAKE) -f CMakeFiles/turtlebot_test.dir/build.make CMakeFiles/turtlebot_test.dir/src/turtlebot_test.cpp.s
 .PHONY : src/turtlebot_test.cpp.s
 
+src/zlgorithm_test.o: src/zlgorithm_test.cpp.o
+
+.PHONY : src/zlgorithm_test.o
+
+# target to build an object file
+src/zlgorithm_test.cpp.o:
+	$(MAKE) -f CMakeFiles/zlgorithm_test.dir/build.make CMakeFiles/zlgorithm_test.dir/src/zlgorithm_test.cpp.o
+.PHONY : src/zlgorithm_test.cpp.o
+
+src/zlgorithm_test.i: src/zlgorithm_test.cpp.i
+
+.PHONY : src/zlgorithm_test.i
+
+# target to preprocess a source file
+src/zlgorithm_test.cpp.i:
+	$(MAKE) -f CMakeFiles/zlgorithm_test.dir/build.make CMakeFiles/zlgorithm_test.dir/src/zlgorithm_test.cpp.i
+.PHONY : src/zlgorithm_test.cpp.i
+
+src/zlgorithm_test.s: src/zlgorithm_test.cpp.s
+
+.PHONY : src/zlgorithm_test.s
+
+# target to generate assembly for a file
+src/zlgorithm_test.cpp.s:
+	$(MAKE) -f CMakeFiles/zlgorithm_test.dir/build.make CMakeFiles/zlgorithm_test.dir/src/zlgorithm_test.cpp.s
+.PHONY : src/zlgorithm_test.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -1648,7 +1768,10 @@ help:
 	@echo "... install/local"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... zlgorithm_test"
+	@echo "... data_structure"
 	@echo "... csv_test"
+	@echo "... play_back"
 	@echo "... swarm_commander"
 	@echo "... count_client"
 	@echo "... m_opencv_test"
@@ -1748,6 +1871,9 @@ help:
 	@echo "... src/csv_test.o"
 	@echo "... src/csv_test.i"
 	@echo "... src/csv_test.s"
+	@echo "... src/data_structure.o"
+	@echo "... src/data_structure.i"
+	@echo "... src/data_structure.s"
 	@echo "... src/find_test.o"
 	@echo "... src/find_test.i"
 	@echo "... src/find_test.s"
@@ -1766,6 +1892,9 @@ help:
 	@echo "... src/newhello.o"
 	@echo "... src/newhello.i"
 	@echo "... src/newhello.s"
+	@echo "... src/play_back.o"
+	@echo "... src/play_back.i"
+	@echo "... src/play_back.s"
 	@echo "... src/secondMajor.o"
 	@echo "... src/secondMajor.i"
 	@echo "... src/secondMajor.s"
@@ -1778,6 +1907,9 @@ help:
 	@echo "... src/turtlebot_test.o"
 	@echo "... src/turtlebot_test.i"
 	@echo "... src/turtlebot_test.s"
+	@echo "... src/zlgorithm_test.o"
+	@echo "... src/zlgorithm_test.i"
+	@echo "... src/zlgorithm_test.s"
 .PHONY : help
 
 

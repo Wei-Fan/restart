@@ -184,6 +184,8 @@ add_executable(count_client src/count_client.cpp)
 add_executable(swarm_commander src/swarm_commander.cpp)
 add_executable(play_back src/play_back.cpp)
 add_executable(csv_test src/csv_test.cpp)
+add_executable(data_structure src/data_structure.cpp)
+add_executable(zlgorithm_test src/zlgorithm_test.cpp)
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above
@@ -219,6 +221,8 @@ target_link_libraries(count_client ${catkin_LIBRARIES})
 target_link_libraries(swarm_commander ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(play_back ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
 target_link_libraries(csv_test ${catkin_LIBRARIES} ${Boost_LIBRARIES} ${OpenCV_LIBS})
+target_link_libraries(data_structure ${catkin_LIBRARIES})
+target_link_libraries(zlgorithm_test ${catkin_LIBRARIES})
 #target_link_libraries(yaml_test ${catkin_LIBRARIES}) #not right now
 
 #############

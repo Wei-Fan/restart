@@ -24,16 +24,16 @@ struct AddTwoIntsResponse_
   typedef AddTwoIntsResponse_<ContainerAllocator> Type;
 
   AddTwoIntsResponse_()
-    : sum(0)  {
+    : sum()  {
     }
   AddTwoIntsResponse_(const ContainerAllocator& _alloc)
-    : sum(0)  {
+    : sum(_alloc)  {
   (void)_alloc;
     }
 
 
 
-   typedef int64_t _sum_type;
+   typedef std::vector<int64_t, typename ContainerAllocator::template rebind<int64_t>::other >  _sum_type;
   _sum_type sum;
 
 
@@ -70,7 +70,7 @@ namespace message_traits
 
 
 
-// BOOLTRAITS {'IsFixedSize': True, 'IsMessage': True, 'HasHeader': False}
+// BOOLTRAITS {'IsFixedSize': False, 'IsMessage': True, 'HasHeader': False}
 // {'geometry_msgs': ['/opt/ros/kinetic/share/geometry_msgs/cmake/../msg'], 'std_msgs': ['/opt/ros/kinetic/share/std_msgs/cmake/../msg'], 'restart': ['/home/wade/catkin_ws/src/restart/msg']}
 
 // !!!!!!!!!!! ['__class__', '__delattr__', '__dict__', '__doc__', '__eq__', '__format__', '__getattribute__', '__hash__', '__init__', '__module__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', '__weakref__', '_parsed_fields', 'constants', 'fields', 'full_name', 'has_header', 'header_present', 'names', 'package', 'parsed_fields', 'short_name', 'text', 'types']
@@ -80,12 +80,12 @@ namespace message_traits
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::restart::AddTwoIntsResponse_<ContainerAllocator> >
-  : TrueType
+  : FalseType
   { };
 
 template <class ContainerAllocator>
 struct IsFixedSize< ::restart::AddTwoIntsResponse_<ContainerAllocator> const>
-  : TrueType
+  : FalseType
   { };
 
 template <class ContainerAllocator>
@@ -114,12 +114,12 @@ struct MD5Sum< ::restart::AddTwoIntsResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "b88405221c77b1878a3cbbfff53428d7";
+    return "90c30f4ac96dc42f9594ba161f7b344a";
   }
 
   static const char* value(const ::restart::AddTwoIntsResponse_<ContainerAllocator>&) { return value(); }
-  static const uint64_t static_value1 = 0xb88405221c77b187ULL;
-  static const uint64_t static_value2 = 0x8a3cbbfff53428d7ULL;
+  static const uint64_t static_value1 = 0x90c30f4ac96dc42fULL;
+  static const uint64_t static_value2 = 0x9594ba161f7b344aULL;
 };
 
 template<class ContainerAllocator>
@@ -138,7 +138,7 @@ struct Definition< ::restart::AddTwoIntsResponse_<ContainerAllocator> >
 {
   static const char* value()
   {
-    return "int64 sum\n\
+    return "int64[] sum\n\
 \n\
 ";
   }
@@ -177,8 +177,12 @@ struct Printer< ::restart::AddTwoIntsResponse_<ContainerAllocator> >
 {
   template<typename Stream> static void stream(Stream& s, const std::string& indent, const ::restart::AddTwoIntsResponse_<ContainerAllocator>& v)
   {
-    s << indent << "sum: ";
-    Printer<int64_t>::stream(s, indent + "  ", v.sum);
+    s << indent << "sum[]" << std::endl;
+    for (size_t i = 0; i < v.sum.size(); ++i)
+    {
+      s << indent << "  sum[" << i << "]: ";
+      Printer<int64_t>::stream(s, indent + "  ", v.sum[i]);
+    }
   }
 };
 
