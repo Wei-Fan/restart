@@ -96,4 +96,7 @@ if __name__ == '__main__':
     affine = getAffineTransform(coord1,coord2)
     print affine
 
+    affine = np.block([affine, np.zeros((2,1))])
+    print affine
+
 
